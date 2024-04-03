@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyaywxbbm1oww"]
+
+[ext_resource type="MeshLibrary" uid="uid://v806vuvoicqb" path="res://Assets/Prototype_blocks/prototype_blocks.tres" id="1_jhotr"]
+
+[node name="GridMap" type="GridMap"]
+mesh_library = ExtResource("1_jhotr")
+cell_size = Vector3(1, 1, 1)
