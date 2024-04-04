@@ -40,7 +40,7 @@ func _ready():
 # Constantly updates
 func _process(_delta):
 	# Update label that shows how many moves are left
-	$UI/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
+	$UI/MarginContainer/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
 
 
 
