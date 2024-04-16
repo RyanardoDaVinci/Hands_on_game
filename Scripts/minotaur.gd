@@ -3,6 +3,7 @@ extends CharacterBody3D
 # Variables that should be ready when starting scene
 @onready var camera = $Head/Camera3D as Camera3D
 @onready var ray = $Head/Wall_detection_ray
+@onready var world = get_parent()
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
@@ -24,6 +25,9 @@ var lock_direction
 # Amount of moves player can do after throwing dice
 var dice_throw_number
 
+# Current active player
+var active_player = null
+
 # Input list (for movement)
 var inputs = {
 	"right": Vector3.RIGHT,
@@ -44,15 +48,19 @@ func _ready():
 
 # Constantly updates
 func _process(_delta):
-	# Update label that shows how many moves are left
-	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number)
+	active_player = world.active_character
+	if (active_player == 1):
+		# Update label that shows how many moves are left
+		$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number)
+	else:
+		$UI/MarginContainer/Moves_left.text = ""
 
 
 
 # Check for player inputs
 func _input(event):
-	# If player is moving, don't get any inputs
-	if moving:
+	# If player is moving or not active, don't get any inputs
+	if moving or active_player == 0:
 		return
 	
 	# Update mouse movement (mouse)

@@ -59,4 +59,5 @@ size_flags_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "Move: W, A, S, D
 Roll dice: R
-Quit game: esc"
+Quit game: esc
+Swap: F"
