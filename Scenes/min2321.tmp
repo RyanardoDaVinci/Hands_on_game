@@ -1,0 +1,125 @@
+[gd_scene load_steps=9 format=3 uid="uid://cg1avh23e8eyu"]
+
+[ext_resource type="Script" path="res://Scripts/minotaur.gd" id="1_5ntsh"]
+[ext_resource type="Script" path="res://Scripts/minimap_camera.gd" id="2_j8wru"]
+[ext_resource type="Texture2D" uid="uid://dy1enubgg3abs" path="res://Assets/Sprites/circle.png" id="3_yh1ef"]
+[ext_resource type="Texture2D" uid="uid://d014t3jsrgvkd" path="res://Assets/Sprites/player-view_angle.png" id="4_0pyfi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghan0"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.32549)
+shadow_size = 16
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pe3a0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2cvb5"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jm42m"]
+
+[node name="Minotaur" type="CharacterBody3D"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
+collision_layer = 3
+script = ExtResource("1_5ntsh")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Moves_left" type="Label" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Minotaur moves: 4"
+
+[node name="Controls" type="Label" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Move: W, A, S, D
+Roll dice: R
+Quit game: esc
+Swap: F"
+
+[node name="Minimap" type="PanelContainer" parent="UI/MarginContainer"]
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ghan0")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="UI/MarginContainer/Minimap"]
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="UI/MarginContainer/Minimap/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(384, 284)
+render_target_update_mode = 4
+
+[node name="Minimap_camera" type="Camera3D" parent="UI/MarginContainer/Minimap/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.015, 8.389, -0.009)
+cull_mask = 1047555
+projection = 1
+size = 5.0
+script = ExtResource("2_j8wru")
+target_path = NodePath("../../../../../..")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+layers = 4
+mesh = SubResource("CapsuleMesh_pe3a0")
+surface_material_override/0 = SubResource("StandardMaterial3D_2cvb5")
+
+[node name="Hitbox" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_jm42m")
+
+[node name="Head" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.649818, -0.634098)
+cull_mask = 1047557
+
+[node name="Wall_detection_ray" type="RayCast3D" parent="Head"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.68, -0.021)
+target_position = Vector3(0, 0, -1)
+
+[node name="Minimap_indicators" type="Node3D" parent="."]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 0, 0.475482, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="Minimap_indicators"]
+transform = Transform3D(1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0, 1.96155, 0)
+layers = 2
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("3_yh1ef")
+
+[node name="Sprite3D2" type="Sprite3D" parent="Minimap_indicators"]
+transform = Transform3D(1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0, 1.962, -1.22964)
+layers = 2
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("4_0pyfi")

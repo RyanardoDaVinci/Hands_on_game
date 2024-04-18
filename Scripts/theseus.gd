@@ -2,8 +2,8 @@ extends CharacterBody3D
 
 # Variables that should be ready when starting scene
 @onready var camera = $Head/Camera3D as Camera3D
-@onready var ray = $Head/Wall_detection_ray
-@onready var world = get_tree().root.get_child(0)
+@onready var wall_ray = $Head/Wall_detection_ray
+@onready var player_ray = $Head/Player_detection_ray
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
@@ -14,6 +14,8 @@ extends CharacterBody3D
 var mouseSensitivity = 350
 var mouse_relative_x = 0
 var mouse_relative_y = 0
+
+var detected_player = false
 
 # Check if player is moving
 var moving = false
@@ -35,7 +37,7 @@ var inputs = {
 
 # Runs when scene starts
 func _ready():
-	# Setup mouse and get starting throw
+	GlobalVariables.position_theseus = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	roll_dice()
 
@@ -43,10 +45,13 @@ func _ready():
 
 # Constantly updates
 func _process(_delta):
-	active_player = world.active_character
+	GlobalVariables.position_theseus = $".".global_transform.origin
+	active_player = GlobalVariables.active_character
 	
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
+	
+	detect_other_player()
 	
 	if (active_player == 0):
 		$UI.visible = true
@@ -67,6 +72,9 @@ func _input(event):
 	
 	# Check if player is rolling a dice ('r')
 	if event.is_action_pressed("reroll"):
+		roll_dice()
+	
+	if event.is_action_pressed("switch_character"):
 		roll_dice()
 	
 	# If player has moves left, move in input direction ('w, a, s, d')
@@ -102,11 +110,11 @@ func move(dir):
 	direction = direction.normalized()
 
 	# Wall detection based on what way player wants to move in (direction)
-	ray.target_position = direction.rotated(Vector3.UP, -rotation.y) * distance * 1.5
-	ray.force_raycast_update()
+	wall_ray.target_position = direction.rotated(Vector3.UP, -rotation.y) * distance * 1.5
+	wall_ray.force_raycast_update()
 	
 	# If ray isn't colliding, move in that direction
-	if !ray.is_colliding():
+	if !wall_ray.is_colliding():
 		# Update amount of moves left
 		dice_throw_number -= 1
 		
@@ -122,3 +130,27 @@ func move(dir):
 # Get random number between 1 and max_throw (6)
 func roll_dice():
 	dice_throw_number = randi() % max_throw + 1
+
+
+
+func detect_other_player():
+	var target_position = GlobalVariables.position_minotaur
+	var character_position = global_transform.origin
+	var direction = (target_position - character_position).normalized()
+	var angle = atan2(direction.x, direction.z)
+	var character_rotation = global_transform.basis.get_euler().y
+	angle -= character_rotation
+	var rotation_in_degrees = rad_to_deg(angle) - 180
+	player_ray.rotation_degrees.y = rotation_in_degrees
+	
+	if player_ray.is_colliding():
+		var collider = player_ray.get_collider()
+		
+		if collider.get_name() == "Minotaur":
+			if not detected_player:
+				print("Found Minotaur!")
+				detected_player = true
+		elif detected_player:
+			print("Lost Minotaur!")
+			detected_player = false
+		
