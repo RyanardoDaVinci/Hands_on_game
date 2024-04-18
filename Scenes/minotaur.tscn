@@ -1,13 +1,67 @@
-[gd_scene load_steps=3 format=3 uid="uid://cavtpxsf1amim"]
+[gd_scene load_steps=5 format=3 uid="uid://cg1avh23e8eyu"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_40hco"]
+[ext_resource type="Script" path="res://Scripts/minotaur.gd" id="1_5ntsh"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_74joi"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pe3a0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2cvb5"]
+albedo_color = Color(0.305882, 0.305882, 0.305882, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jm42m"]
 
 [node name="Minotaur" type="CharacterBody3D"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
+script = ExtResource("1_5ntsh")
 
 [node name="Body" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_40hco")
+mesh = SubResource("CapsuleMesh_pe3a0")
+surface_material_override/0 = SubResource("StandardMaterial3D_2cvb5")
 
 [node name="Hitbox" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_74joi")
+shape = SubResource("CapsuleShape3D_jm42m")
+
+[node name="Head" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.649818, -0.634098)
+
+[node name="Wall_detection_ray" type="RayCast3D" parent="Head"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.68, -0.021)
+target_position = Vector3(0, 0, -1)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Moves_left" type="Label" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Minotaur moves: 4"
+
+[node name="Controls" type="Label" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Move: W, A, S, D
+Roll dice: R
+Quit game: esc
+Swap: F"
