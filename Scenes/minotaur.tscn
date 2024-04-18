@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://cg1avh23e8eyu"]
+[gd_scene load_steps=5 format=3 uid="uid://cg1avh23e8eyu"]
 
 [ext_resource type="Script" path="res://Scripts/minotaur.gd" id="1_5ntsh"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_pe3a0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2cvb5"]
+albedo_color = Color(0.305882, 0.305882, 0.305882, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jm42m"]
 
@@ -12,6 +15,7 @@ script = ExtResource("1_5ntsh")
 
 [node name="Body" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_pe3a0")
+surface_material_override/0 = SubResource("StandardMaterial3D_2cvb5")
 
 [node name="Hitbox" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_jm42m")

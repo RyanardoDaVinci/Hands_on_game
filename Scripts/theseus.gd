@@ -3,7 +3,7 @@ extends CharacterBody3D
 # Variables that should be ready when starting scene
 @onready var camera = $Head/Camera3D as Camera3D
 @onready var ray = $Head/Wall_detection_ray
-@onready var world = get_parent()
+@onready var world = get_tree().root.get_child(0)
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
@@ -44,11 +44,14 @@ func _ready():
 # Constantly updates
 func _process(_delta):
 	active_player = world.active_character
+	
+	# Update label that shows how many moves are left
+	$UI/MarginContainer/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
+	
 	if (active_player == 0):
-		# Update label that shows how many moves are left
-		$UI/MarginContainer/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
+		$UI.visible = true
 	else:
-		$UI/MarginContainer/Moves_left.text = ""
+		$UI.visible = false
 
 
 

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8gohuk42ax1i"]
+
+[ext_resource type="PackedScene" uid="uid://cyaywxbbm1oww" path="res://Scenes/grid_map.tscn" id="2_atrti"]
+
+[node name="Main" type="Node3D"]
+
+[node name="GridMap" parent="." instance=ExtResource("2_atrti")]
+metadata/_editor_floor_ = Vector3(0, 0, 0)
