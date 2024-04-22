@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://mbs3jhg7pstq"]
+[gd_scene load_steps=9 format=3 uid="uid://mbs3jhg7pstq"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_644jc"]
 [ext_resource type="PackedScene" uid="uid://cyaywxbbm1oww" path="res://Scenes/grid_map.tscn" id="1_ounu5"]
@@ -18,6 +18,9 @@ sky = SubResource("Sky_bjfem")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_gletb"]
+size = Vector3(1, 0.01, 1)
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_644jc")
 
@@ -36,6 +39,16 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="World"]
 environment = SubResource("Environment_a3xrl")
 
+[node name="Goals" type="Area3D" parent="World"]
+
+[node name="Goal1" type="CollisionShape3D" parent="World/Goals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.05, -2.5)
+shape = SubResource("BoxShape3D_gletb")
+
+[node name="Goal2" type="CollisionShape3D" parent="World/Goals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.05, 2.5)
+shape = SubResource("BoxShape3D_gletb")
+
 [node name="Players" type="Node3D" parent="."]
 
 [node name="Theseus" parent="Players" instance=ExtResource("4_huu8a")]
@@ -43,3 +56,5 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.5, 0.303, 0.5)
 
 [node name="Minotaur" parent="Players" instance=ExtResource("3_e3dcj")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.5, 0.303, -0.5)
+
+[connection signal="body_entered" from="World/Goals" to="." method="_on_goals_body_entered"]

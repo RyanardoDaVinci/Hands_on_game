@@ -33,3 +33,9 @@ func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
+
+
+func _on_goals_body_entered(body):
+	print("Entered")
+	if body == theseus:
+		print("Theseus Wins!")
