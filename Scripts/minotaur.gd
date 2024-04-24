@@ -142,3 +142,8 @@ func move(dir):
 # Get random number between 1 and max_throw (4)
 func roll_dice():
 	dice_throw_number = randi() % max_throw + 1
+
+
+func _on_attack_area_body_entered(body):
+	if "is_theseus" in body:
+		print("Minotaur wins!")

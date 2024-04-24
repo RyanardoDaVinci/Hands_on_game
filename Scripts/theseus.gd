@@ -23,6 +23,7 @@ var dice_throw_number
 
 # Current active player
 var active_player = null
+var is_theseus: bool
 
 # Input list (for movement)
 var inputs = {

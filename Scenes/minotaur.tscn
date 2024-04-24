@@ -69,3 +69,5 @@ text = "Move: W, A, S, D
 Roll dice: R
 Quit game: esc
 Swap: F"
+
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

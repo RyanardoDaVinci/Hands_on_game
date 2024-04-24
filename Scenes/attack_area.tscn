@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3sd13s5hryf"]
+[gd_scene load_steps=4 format=3 uid="uid://c3sd13s5hryf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jk1cc"]
 size = Vector3(1, 0.01, 3)
@@ -6,12 +6,23 @@ size = Vector3(1, 0.01, 3)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5uefe"]
 size = Vector3(3, 0.01, 1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_yrqet"]
+radius = 1.0
+
 [node name="AttackArea" type="Area3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(3.333, 0, 0, 0, 3.333, 0, 0, 0, 3.333, 0, 0.1, 0)
+visible = false
 shape = SubResource("BoxShape3D_jk1cc")
+disabled = true
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(3.333, 0, 0, 0, 3.333, 0, 0, 0, 3.333, 0, 0.1, 0)
+visible = false
 shape = SubResource("BoxShape3D_5uefe")
+disabled = true
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(3.333, 0, 0, 0, 3.333, 0, 0, 0, 3.333, 0, 0.1, 0)
+shape = SubResource("SphereShape3D_yrqet")
