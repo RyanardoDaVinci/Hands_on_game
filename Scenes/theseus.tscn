@@ -55,13 +55,14 @@ text = "Theseus moves: 6"
 
 [node name="Controls" type="Label" parent="UI/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
 theme_override_font_sizes/font_size = 40
 text = "Move: W, A, S, D
 Roll dice: R
-Quit game: esc
-Swap: F"
+Swap: tab
+Quit game: esc"
+horizontal_alignment = 2
 
 [node name="Minimap" type="PanelContainer" parent="UI/MarginContainer"]
 custom_minimum_size = Vector2(400, 300)
@@ -88,6 +89,7 @@ script = ExtResource("2_axiao")
 target_path = NodePath("../../../../../..")
 
 [node name="Body" type="MeshInstance3D" parent="."]
+layers = 4
 mesh = SubResource("CapsuleMesh_pe3a0")
 
 [node name="Hitbox" type="CollisionShape3D" parent="."]

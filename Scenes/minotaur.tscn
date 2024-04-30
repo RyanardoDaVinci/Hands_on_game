@@ -59,15 +59,24 @@ size_flags_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "Minotaur moves: 4"
 
+[node name="Locked_in" type="Label" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "
+Locked in"
+
 [node name="Controls" type="Label" parent="UI/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
 theme_override_font_sizes/font_size = 40
 text = "Move: W, A, S, D
 Roll dice: R
-Quit game: esc
-Swap: F"
+Swap: tab
+Quit game: esc"
+horizontal_alignment = 2
 
 [node name="Minimap" type="PanelContainer" parent="UI/MarginContainer"]
 custom_minimum_size = Vector2(400, 300)
@@ -87,7 +96,7 @@ render_target_update_mode = 4
 
 [node name="Minimap_camera" type="Camera3D" parent="UI/MarginContainer/Minimap/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.015, 8.389, -0.009)
-cull_mask = 1047555
+cull_mask = 1047561
 projection = 1
 size = 5.0
 script = ExtResource("2_j8wru")
@@ -119,13 +128,13 @@ transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 0, 0.475482, 0)
 
 [node name="Sprite3D" type="Sprite3D" parent="Minimap_indicators"]
 transform = Transform3D(1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0, 1.96155, 0)
-layers = 2
+layers = 8
 modulate = Color(1, 0, 0, 1)
 texture = ExtResource("3_yh1ef")
 
 [node name="Sprite3D2" type="Sprite3D" parent="Minimap_indicators"]
 transform = Transform3D(1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0, 1.962, -1.22964)
-layers = 2
+layers = 8
 modulate = Color(1, 0, 0, 1)
 texture = ExtResource("4_0pyfi")
 

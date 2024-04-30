@@ -5,11 +5,14 @@ extends CharacterBody3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
 @onready var attack_area = $Attack_area
+@onready var locked_in_label = $UI/MarginContainer/Locked_in
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
 @export var max_throw = 4
+@export var max_turns = 1
+@export var fixed_amount_moves = false
 
 # Mouse related variables
 var mouseSensitivity = 350
@@ -33,6 +36,8 @@ var active_player = null
 
 var move_one_dir = false
 
+var turns_taken = 0
+
 # Input list (for movement)
 var inputs = {
 	"right": Vector3.RIGHT,
@@ -47,6 +52,7 @@ var inputs = {
 func _ready():
 	GlobalVariables.position_minotaur = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	locked_in_label.visible = false
 	roll_dice()
 
 
@@ -80,18 +86,19 @@ func _input(event):
 	if moving or active_player == 0:
 		return
 
-	if event.is_action_pressed("switch_character"):
-		detected_player = false
-
 	# Update mouse movement (mouse)
 	if event is InputEventMouseMotion:
 		mouse_movement(event)
 
 	# Check if player is rolling a dice ('r')
 	if event.is_action_pressed("reroll"):
-		roll_dice()
+		if turns_taken < max_turns - 1:
+			turns_taken += 1
+			roll_dice()
 
 	if event.is_action_pressed("switch_character"):
+		detected_player = false
+		turns_taken = 0
 		roll_dice()
 
 	# If player has moves left, move in input direction ('w, a, s, d')
@@ -155,17 +162,16 @@ func move(dir):
 		moving = false
 		GlobalVariables.minotaur_moving = false
 
-		# Check if player can't move anymore because of wall (if so, set moves left to 0)
-		if wall_ray.is_colliding() and direction_locked:
-			dice_throw_number = 0
-
 
 
 # Get random number between 1 and max_throw (4)
 func roll_dice():
 	direction_locked = false
 	move_one_dir = false
-	dice_throw_number = randi() % max_throw + 1
+	if fixed_amount_moves:
+		dice_throw_number = max_throw
+	else:
+		dice_throw_number = randi() % max_throw + 1
 
 
 
@@ -183,15 +189,20 @@ func detect_other_player():
 		var collider = player_ray.get_collider()
 
 		if collider.get_name() == "Theseus":
+			locked_in_label.visible = true
 			if not detected_player:
 				if active_player == 0:
 					print("Found Theseus!")
 					GlobalVariables.theseus_located_positions.append(GlobalVariables.position_theseus)
 					print(GlobalVariables.theseus_located_positions)
 				detected_player = true
-			move_one_dir = true
-		elif detected_player:
-			detected_player = false
+				move_one_dir = true
+		else:
+			if detected_player:
+				detected_player = false
+			move_one_dir = false
+			locked_in_label.visible = false
+
 
 
 

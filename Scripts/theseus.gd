@@ -9,6 +9,8 @@ extends CharacterBody3D
 @export var speed = 1
 @export var distance = 1
 @export var max_throw = 6
+@export var max_turns = 1
+@export var fixed_amount_moves = false
 
 # Mouse related variables
 var mouseSensitivity = 350
@@ -25,6 +27,8 @@ var dice_throw_number
 
 # Current active player
 var active_player = null
+
+var turns_taken = 0
 
 # Input list (for movement)
 var inputs = {
@@ -69,18 +73,19 @@ func _input(event):
 	if moving or active_player == 1:
 		return
 
-	if event.is_action_pressed("switch_character"):
-		detected_player = false
-
 	# Update mouse movement (mouse)
 	if event is InputEventMouseMotion:
 		mouse_movement(event)
 
 	# Check if player is rolling a dice ('r')
 	if event.is_action_pressed("reroll"):
-		roll_dice()
+		if turns_taken < max_turns - 1:
+			turns_taken += 1
+			roll_dice()
 
 	if event.is_action_pressed("switch_character"):
+		detected_player = false
+		turns_taken = 0
 		roll_dice()
 
 	# If player has moves left, move in input direction ('w, a, s, d')
@@ -137,7 +142,10 @@ func move(dir):
 
 # Get random number between 1 and max_throw (6)
 func roll_dice():
-	dice_throw_number = randi() % max_throw + 1
+	if fixed_amount_moves:
+		dice_throw_number = max_throw
+	else:
+		dice_throw_number = randi() % max_throw + 1
 
 
 
