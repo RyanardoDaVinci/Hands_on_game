@@ -113,7 +113,7 @@ shape = SubResource("CapsuleShape3D_jm42m")
 [node name="Head" type="Node3D" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.649818, -0.634098)
+transform = Transform3D(1.33333, 0, 0, 0, 1.33333, 0, 0, 0, 1.33333, 0, 0.649818, -0.00174205)
 cull_mask = 1047557
 
 [node name="Wall_detection_ray" type="RayCast3D" parent="Head"]
@@ -153,5 +153,10 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000526428, 0.0518533, -0.011909)
 shape = SubResource("BoxShape3D_e7cf6")
 
+[node name="Locked_in_timer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="body_entered" from="Attack_area/Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Attack_area/Area3D2" to="." method="_on_area_3d_2_body_entered"]
+[connection signal="timeout" from="Locked_in_timer" to="." method="_on_locked_in_timer_timeout"]

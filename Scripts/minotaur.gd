@@ -201,7 +201,7 @@ func detect_other_player():
 			if detected_player:
 				detected_player = false
 			move_one_dir = false
-			locked_in_label.visible = false
+			$Locked_in_timer.start()
 
 
 
@@ -216,3 +216,7 @@ func _on_area_3d_2_body_entered(body):
 	if body.get_name() == "Theseus":
 		await get_tree().create_timer(1).timeout
 		get_tree().reload_current_scene()
+
+
+func _on_locked_in_timer_timeout():
+	locked_in_label.visible = false

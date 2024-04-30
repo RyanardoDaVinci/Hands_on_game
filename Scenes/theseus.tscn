@@ -98,7 +98,7 @@ shape = SubResource("CapsuleShape3D_jm42m")
 [node name="Head" type="Node3D" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.649818, -0.634098)
+transform = Transform3D(1.33333, 0, 0, 0, 1.33333, 0, 0, 0, 1.33333, 0, 0.649818, -0.00166861)
 cull_mask = 1047557
 
 [node name="Wall_detection_ray" type="RayCast3D" parent="Head"]
