@@ -4,12 +4,15 @@ extends CharacterBody3D
 @onready var camera = $Head/Camera3D as Camera3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
+@onready var fuck_you = $UI/MarginContainer/Fuck_you
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
-@export var max_throw = 6
+@export var max_throw = 4
 @export var max_turns = 1
+@export var move_back_range = 15
+@export var move_back_chance = 0.069
 @export var fixed_amount_moves = false
 
 # Mouse related variables
@@ -27,6 +30,9 @@ var dice_throw_number
 
 # Current active player
 var active_player = null
+
+# Previous position of player during this turn
+var previous_position = null
 
 var turns_taken = 0
 
@@ -128,6 +134,9 @@ func move(dir):
 	if !wall_ray.is_colliding():
 		# Update amount of moves left
 		dice_throw_number -= 1
+		
+		# Update previous position
+		previous_position = GlobalVariables.position_theseus
 
 		# Move player
 		var tween = get_tree().create_tween()
@@ -137,6 +146,20 @@ func move(dir):
 		await tween.finished
 		moving = false
 		GlobalVariables.theseus_moving = false
+		
+		# if theseus in range of goal, random chance to move back 1 spot
+		if GlobalVariables.shortest_goal_distance <= move_back_range:
+			if randf() < move_back_chance and previous_position != null:
+				fuck_you.visible = true
+				var tween2 = get_tree().create_tween()
+				tween2.tween_property(self, "position", previous_position, 1.0/speed).set_trans(Tween.TRANS_SINE)
+				moving = true
+				GlobalVariables.theseus_moving = true
+				await tween2.finished
+				moving = false
+				GlobalVariables.theseus_moving = false
+				previous_position = null
+				fuck_you.visible = false
 
 
 

@@ -64,6 +64,13 @@ Swap: tab
 Quit game: esc"
 horizontal_alignment = 2
 
+[node name="Fuck_you" type="Label" parent="UI/MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 116
+text = "Fuck You!!!"
+horizontal_alignment = 1
+
 [node name="Minimap" type="PanelContainer" parent="UI/MarginContainer"]
 custom_minimum_size = Vector2(300, 400)
 layout_mode = 2
@@ -100,6 +107,7 @@ shape = SubResource("CapsuleShape3D_jm42m")
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(1.33333, 0, 0, 0, 1.33333, 0, 0, 0, 1.33333, 0, 0.649818, -0.00166861)
 cull_mask = 1047557
+current = true
 
 [node name="Wall_detection_ray" type="RayCast3D" parent="Head"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.68, 0)

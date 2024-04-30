@@ -20,7 +20,9 @@ func _ready():
 
 # Constantly updates
 func _process(_delta):
-	pass
+	if GlobalVariables.active_character == 0:
+		if !GlobalVariables.theseus_moving:
+			GlobalVariables.shortest_goal_distance = calculate_goal_distance()
 
 
 
@@ -29,11 +31,13 @@ func _input(event):
 		moved = false
 		spawn_ghosts()
 		# Switch active character
-		if GlobalVariables.active_character == 0:
+		# if active character == theseus
+		if GlobalVariables.active_character == 0 and !GlobalVariables.theseus_moving:
 			GlobalVariables.active_character = 1
 			GlobalVariables.minotaur_located_positions.clear()
 			minotaur.camera.current = true
-		else:
+		# if active character == minotaur
+		elif !GlobalVariables.minotaur_moving:
 			GlobalVariables.active_character = 0
 			GlobalVariables.theseus_located_positions.clear()
 			theseus.camera.current = true
@@ -51,6 +55,18 @@ func _unhandled_input(event):
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
 
+func calculate_goal_distance():
+	var player_position = GlobalVariables.position_theseus
+	player_position.y = 0
+	var shortest_goal_distance = -1
+	for goal in $Goals.get_children():
+		var goal_position = goal.global_transform.origin
+		goal_position.y = 0
+		var goal_distance = player_position.distance_to(goal_position)
+		if shortest_goal_distance == -1 or shortest_goal_distance > goal_distance:
+			shortest_goal_distance = goal_distance
+	return shortest_goal_distance
+
 
 func spawn_ghosts():
 	var player
@@ -62,6 +78,7 @@ func spawn_ghosts():
 	else:
 		player = GlobalVariables.minotaur_located_positions
 		player_location = GlobalVariables.position_minotaur
+	print(player)
 
 	while not moved:
 		for i in range(player.size()):
