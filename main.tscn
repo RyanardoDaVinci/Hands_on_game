@@ -3,9 +3,9 @@
 [ext_resource type="Script" path="res://main.gd" id="1_644jc"]
 [ext_resource type="PackedScene" uid="uid://cyaywxbbm1oww" path="res://Scenes/grid_map.tscn" id="1_ounu5"]
 [ext_resource type="PackedScene" uid="uid://cg1avh23e8eyu" path="res://Scenes/minotaur.tscn" id="3_e3dcj"]
-[ext_resource type="PackedScene" uid="uid://cl1maeeh01kmc" path="res://Scenes/win_area.tscn" id="3_u4481"]
+[ext_resource type="PackedScene" path="res://Scenes/win_area.tscn" id="3_u4481"]
 [ext_resource type="PackedScene" uid="uid://dkgkgdgv362ku" path="res://Scenes/theseus.tscn" id="4_huu8a"]
-[ext_resource type="PackedScene" uid="uid://dqeabsnhql8em" path="res://Scenes/swap_players.tscn" id="6_n2lxv"]
+[ext_resource type="PackedScene" path="res://Scenes/swap_players.tscn" id="6_n2lxv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fjoni"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -55,9 +55,9 @@ fixed_amount_moves = true
 [node name="Goals" type="Node3D" parent="."]
 
 [node name="Win_area" parent="Goals" instance=ExtResource("3_u4481")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.51243, 0.500096, -2.50258)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.5, -2.5)
 
 [node name="Win_area2" parent="Goals" instance=ExtResource("3_u4481")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.50113, 0.500096, -2.50258)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.5, -2.5)
 
 [node name="Swap_players" parent="." instance=ExtResource("6_n2lxv")]

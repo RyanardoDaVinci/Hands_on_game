@@ -84,6 +84,7 @@ func _input(event):
 			roll_dice()
 
 	if event.is_action_pressed("switch_character"):
+		print(calculate_goal_distance())
 		detected_player = false
 		turns_taken = 0
 		roll_dice()
@@ -147,6 +148,17 @@ func roll_dice():
 	else:
 		dice_throw_number = randi() % max_throw + 1
 
+func calculate_goal_distance():
+	var player_position = GlobalVariables.position_theseus
+	player_position.y = 0
+	var distance = -1
+	for goal in $"../../Goals".get_children():
+		var goal_position = goal.global_transform.origin
+		goal_position.y = 0
+		var goal_distance = player_position.distance_to(goal_position)
+		if distance == -1 || distance > goal_distance:
+			distance = goal_distance
+	return distance
 
 
 func detect_other_player():
