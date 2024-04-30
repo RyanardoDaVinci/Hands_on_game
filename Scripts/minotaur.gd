@@ -13,6 +13,7 @@ extends CharacterBody3D
 @export var max_throw = 4
 @export var max_turns = 1
 @export var fixed_amount_moves = false
+@export var reveal_theseus_range = 5
 
 # Mouse related variables
 var mouseSensitivity = 350

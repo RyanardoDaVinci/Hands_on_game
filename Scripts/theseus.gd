@@ -11,8 +11,8 @@ extends CharacterBody3D
 @export var max_throw = 6
 @export var max_turns = 1
 @export var fixed_amount_moves = false
-@export var nerf_distance = 5
-@export var nerf_chance = 0.5
+@export var move_back_range = 5
+@export var move_back_chance = 0.5
 
 # Mouse related variables
 var mouseSensitivity = 350
@@ -89,9 +89,9 @@ func _input(event):
 			roll_dice()
 
 	if event.is_action_pressed("switch_character"):
-		if GlobalVariables.shortest_goal_distance <= nerf_distance:
-			if randf() < nerf_chance and previous_position != null:
-				print("Moved back!")
+		# if theseus in range of goal, random chance to move back 1 spot
+		if GlobalVariables.shortest_goal_distance <= move_back_range:
+			if randf() < move_back_chance and previous_position != null:
 				var tween = get_tree().create_tween()
 				tween.tween_property(self, "position", previous_position, 1.0/speed).set_trans(Tween.TRANS_SINE)
 				moving = true
@@ -100,6 +100,7 @@ func _input(event):
 				moving = false
 				GlobalVariables.theseus_moving = false
 				previous_position = null
+		
 		detected_player = false
 		turns_taken = 0
 		roll_dice()

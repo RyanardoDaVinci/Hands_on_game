@@ -15,7 +15,9 @@ func _ready():
 
 # Constantly updates
 func _process(_delta):
-	GlobalVariables.shortest_goal_distance = calculate_goal_distance()
+	if GlobalVariables.active_character == 0:
+		if !GlobalVariables.theseus_moving:
+			GlobalVariables.shortest_goal_distance = calculate_goal_distance()
 
 
 
