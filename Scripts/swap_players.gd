@@ -12,16 +12,17 @@ func _ready():
 
 func _process(_delta):
 	if Input.is_action_just_pressed("switch_character") and !in_options and not just_swapped:
-		just_swapped = true
-		new_pause_state = not get_tree().paused
+		if !GlobalVariables.theseus_moving and !GlobalVariables.minotaur_moving:
+			just_swapped = true
+			new_pause_state = not get_tree().paused
 
-		get_tree().paused = new_pause_state
-		$UI.visible = new_pause_state
+			get_tree().paused = new_pause_state
+			$UI.visible = new_pause_state
 
-		if new_pause_state:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			if new_pause_state:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			else:
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 func _on_swap_pressed():

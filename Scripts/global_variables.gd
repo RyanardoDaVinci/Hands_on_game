@@ -10,3 +10,5 @@ var minotaur_moving = false
 
 var theseus_located_positions = []
 var minotaur_located_positions = []
+
+var shortest_goal_distance = null
