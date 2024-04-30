@@ -41,7 +41,7 @@ environment = SubResource("Environment_a3xrl")
 [node name="Players" type="Node3D" parent="."]
 
 [node name="Theseus" parent="Players" instance=ExtResource("4_huu8a")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.5, 0.303, 2.5)
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.5, 0.303, -15.5)
 max_throw = 4
 max_turns = 100
 fixed_amount_moves = true
@@ -55,10 +55,10 @@ fixed_amount_moves = true
 [node name="Goals" type="Node3D" parent="."]
 
 [node name="Win_area" parent="Goals" instance=ExtResource("3_u4481")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.51243, 0.500096, -26.5026)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.5, -26.5)
 
 [node name="Win_area2" parent="Goals" instance=ExtResource("3_u4481")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.50113, 0.500096, -26.5026)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.5, -26.5)
 
 [node name="Swap_players" parent="." instance=ExtResource("6_n2lxv")]
 
