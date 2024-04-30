@@ -51,7 +51,10 @@ func _process(_delta):
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
 	
-	detect_other_player()
+	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving and active_player == 1:
+		detect_other_player()
+	elif GlobalVariables.minotaur_moving:
+		detected_player = false
 	
 	if (active_player == 0):
 		$UI.visible = true
@@ -65,6 +68,9 @@ func _input(event):
 	# If player is moving or not active, don't get any inputs
 	if moving or active_player == 1:
 		return
+	
+	if event.is_action_pressed("switch_character"):
+		detected_player = false
 	
 	# Update mouse movement (mouse)
 	if event is InputEventMouseMotion:
@@ -122,8 +128,10 @@ func move(dir):
 		var tween = get_tree().create_tween()
 		tween.tween_property(self, "position", position + direction * distance, 1.0/speed).set_trans(Tween.TRANS_SINE)
 		moving = true
+		GlobalVariables.theseus_moving = true
 		await tween.finished
 		moving = false
+		GlobalVariables.theseus_moving = false
 
 
 
@@ -149,8 +157,13 @@ func detect_other_player():
 		if collider.get_name() == "Minotaur":
 			if not detected_player:
 				print("Found Minotaur!")
+				GlobalVariables.minotaur_located_positions.append(GlobalVariables.position_minotaur)
+				print(GlobalVariables.minotaur_located_positions)
 				detected_player = true
-		elif detected_player:
-			print("Lost Minotaur!")
+		else:
 			detected_player = false
-		
+
+
+
+func path_minotaur():
+	pass

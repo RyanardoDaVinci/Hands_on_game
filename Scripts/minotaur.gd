@@ -57,7 +57,10 @@ func _process(_delta):
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number)
 	
-	detect_other_player()
+	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving and active_player == 0:
+		detect_other_player()
+	elif GlobalVariables.theseus_moving:
+		detected_player = false
 	
 	if (active_player == 1):
 		$UI.visible = true
@@ -72,13 +75,15 @@ func _input(event):
 	if moving or active_player == 0:
 		return
 	
+	if event.is_action_pressed("switch_character"):
+		detected_player = false
+	
 	# Update mouse movement (mouse)
 	if event is InputEventMouseMotion:
 		mouse_movement(event)
 	
 	# Check if player is rolling a dice ('r')
 	if event.is_action_pressed("reroll"):
-		direction_locked = false
 		roll_dice()
 	
 	if event.is_action_pressed("switch_character"):
@@ -139,8 +144,10 @@ func move(dir):
 		var tween = get_tree().create_tween()
 		tween.tween_property(self, "position", position + direction * distance, 1.0/speed).set_trans(Tween.TRANS_SINE)
 		moving = true
+		GlobalVariables.minotaur_moving = true
 		await tween.finished
 		moving = false
+		GlobalVariables.minotaur_moving = false
 		
 		# Check if player can't move anymore because of wall (if so, set moves left to 0)
 		if wall_ray.is_colliding() and direction_locked:
@@ -150,6 +157,7 @@ func move(dir):
 
 # Get random number between 1 and max_throw (4)
 func roll_dice():
+	direction_locked = false
 	dice_throw_number = randi() % max_throw + 1
 
 
@@ -170,8 +178,9 @@ func detect_other_player():
 		if collider.get_name() == "Theseus":
 			if not detected_player:
 				print("Found Theseus!")
+				GlobalVariables.theseus_located_positions.append(GlobalVariables.position_theseus)
+				print(GlobalVariables.theseus_located_positions)
 				detected_player = true
 		elif detected_player:
-			print("Lost Theseus!")
 			detected_player = false
 		

@@ -17,15 +17,21 @@ func _ready():
 func _process(_delta):
 	pass
 
+
+
 func _input(event):
 	if event.is_action_pressed("switch_character"):
 		# Switch active character
 		if GlobalVariables.active_character == 0:
 			GlobalVariables.active_character = 1
+			GlobalVariables.minotaur_located_positions.clear()
 			minotaur.camera.current = true
 		else:
 			GlobalVariables.active_character = 0
+			GlobalVariables.theseus_located_positions.clear()
 			theseus.camera.current = true
+
+
 
 # Check for inputs that are not in the project input map
 func _unhandled_input(event):
