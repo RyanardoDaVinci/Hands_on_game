@@ -11,8 +11,10 @@ extends CharacterBody3D
 @export var distance = 1
 @export var max_throw = 4
 @export var max_turns = 1
-@export var move_back_range = 15
+@export var move_back_range = 10
 @export var move_back_chance = 0.069
+@export var lose_movement_range = 17
+@export var extra_distance = 1
 @export var fixed_amount_moves = false
 
 # Mouse related variables
@@ -166,9 +168,15 @@ func move(dir):
 # Get random number between 1 and max_throw (6)
 func roll_dice():
 	if fixed_amount_moves:
-		dice_throw_number = max_throw
+		if GlobalVariables.shortest_goal_distance >= lose_movement_range or GlobalVariables.shortest_goal_distance == -1:
+			dice_throw_number = max_throw + extra_distance
+		else:
+			dice_throw_number = max_throw
 	else:
-		dice_throw_number = randi() % max_throw + 1
+		if GlobalVariables.shortest_goal_distance >= lose_movement_range or GlobalVariables.shortest_goal_distance == -1:
+			dice_throw_number = randi() % (max_throw + extra_distance) + 1
+		else:
+			dice_throw_number = randi() % max_throw + 1
 
 
 
