@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnin0ajcetpqo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fxh6m"]
+
+[node name="Theseus_located" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_fxh6m")
