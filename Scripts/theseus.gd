@@ -26,8 +26,6 @@ var dice_throw_number
 # Current active player
 var active_player = null
 
-var is_theseus
-
 # Input list (for movement)
 var inputs = {
 	"right": Vector3.RIGHT,
@@ -53,7 +51,7 @@ func _process(_delta):
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
 
-	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving and active_player == 1:
+	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving:
 		detect_other_player()
 	elif GlobalVariables.minotaur_moving:
 		detected_player = false
@@ -158,9 +156,10 @@ func detect_other_player():
 
 		if collider.get_name() == "Minotaur":
 			if not detected_player:
-				print("Found Minotaur!")
-				GlobalVariables.minotaur_located_positions.append(GlobalVariables.position_minotaur)
-				print(GlobalVariables.minotaur_located_positions)
+				if active_player == 1:
+					print("Found Minotaur!")
+					GlobalVariables.minotaur_located_positions.append(GlobalVariables.position_minotaur)
+					print(GlobalVariables.minotaur_located_positions)
 				detected_player = true
 		else:
 			detected_player = false

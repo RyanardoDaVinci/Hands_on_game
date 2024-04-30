@@ -31,6 +31,8 @@ var dice_throw_number
 # Current active player
 var active_player = null
 
+var move_one_dir = false
+
 # Input list (for movement)
 var inputs = {
 	"right": Vector3.RIGHT,
@@ -60,7 +62,7 @@ func _process(_delta):
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number)
 
-	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving and active_player == 0:
+	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving:
 		detect_other_player()
 	elif GlobalVariables.theseus_moving:
 		detected_player = false
@@ -131,14 +133,15 @@ func move(dir):
 	# If ray isn't colliding, move in that direction
 	if !wall_ray.is_colliding():
 		# Lock direction and check if input direction is the same
-		if !direction_locked:
-			lock_direction = direction
-			direction_locked = true
-		elif direction != lock_direction:
-			return
+		if move_one_dir:
+			if !direction_locked:
+				lock_direction = direction
+				direction_locked = true
+			elif direction != lock_direction:
+				return
 
-		# Direction wasn't locked so lock it
-		direction = lock_direction
+			# Direction wasn't locked so lock it
+			direction = lock_direction
 
 		# Update amount of moves left
 		dice_throw_number -= 1
@@ -161,6 +164,7 @@ func move(dir):
 # Get random number between 1 and max_throw (4)
 func roll_dice():
 	direction_locked = false
+	move_one_dir = false
 	dice_throw_number = randi() % max_throw + 1
 
 
@@ -180,22 +184,24 @@ func detect_other_player():
 
 		if collider.get_name() == "Theseus":
 			if not detected_player:
-				print("Found Theseus!")
-				GlobalVariables.theseus_located_positions.append(GlobalVariables.position_theseus)
-				print(GlobalVariables.theseus_located_positions)
+				if active_player == 0:
+					print("Found Theseus!")
+					GlobalVariables.theseus_located_positions.append(GlobalVariables.position_theseus)
+					print(GlobalVariables.theseus_located_positions)
 				detected_player = true
+			move_one_dir = true
 		elif detected_player:
 			detected_player = false
 
 
 
 func _on_area_3d_body_entered(body):
-	if 'is_theseus' in body:
+	if body.get_name() == "Theseus":
 		await get_tree().create_timer(1).timeout
 		get_tree().reload_current_scene()
 
 
 func _on_area_3d_2_body_entered(body):
-	if 'is_theseus' in body:
+	if body.get_name() == "Theseus":
 		await get_tree().create_timer(1).timeout
 		get_tree().reload_current_scene()
