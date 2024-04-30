@@ -38,13 +38,30 @@ var inputs = {
 	"backward": Vector3.BACK
 }
 
+# List containing path that Theseus has taken
+var path = []
+# The current length of a rope
+var rope_length = 0
+# The maximum length of the rope
+var max_rope_length = 4
 
 # Runs when scene starts
 func _ready():
 	GlobalVariables.position_theseus = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	roll_dice()
+	
+	print("before:")
+	print(GlobalVariables.position_theseus)
+	
+	GlobalVariables.position_theseus[0] = round(GlobalVariables.position_theseus[0] * 2) / 2
+	GlobalVariables.position_theseus[1] = round(GlobalVariables.position_theseus[1] * 2) / 2
+	GlobalVariables.position_theseus[2] = round(GlobalVariables.position_theseus[2] * 2) / 2
+	
+	print("after:")
+	print(GlobalVariables.position_theseus)
 
+	path.append(GlobalVariables.position_theseus)
 
 
 # Constantly updates
@@ -123,9 +140,12 @@ func move(dir):
 	# Wall detection based on what way player wants to move in (direction)
 	wall_ray.target_position = direction.rotated(Vector3.UP, -rotation.y) * distance * 1.5
 	wall_ray.force_raycast_update()
-
+	print("rope_length: ")
+	print(rope_length)
+	print("max_rope_length: ")
+	print(max_rope_length)
 	# If ray isn't colliding, move in that direction
-	if !wall_ray.is_colliding():
+	if !wall_ray.is_colliding() and rope_length < max_rope_length:
 		# Update amount of moves left
 		dice_throw_number -= 1
 
@@ -137,6 +157,34 @@ func move(dir):
 		await tween.finished
 		moving = false
 		GlobalVariables.theseus_moving = false
+		
+		GlobalVariables.position_theseus[0] = round(GlobalVariables.position_theseus[0] * 2) / 2
+		GlobalVariables.position_theseus[1] = round(GlobalVariables.position_theseus[1] * 2) / 2
+		GlobalVariables.position_theseus[2] = round(GlobalVariables.position_theseus[2] * 2) / 2
+		
+		print("voor, path: ")
+		print(path)
+		print("pos_thes: ")
+		print(GlobalVariables.position_theseus)
+		
+		if path.size() > 1:			
+			if path[-2] != GlobalVariables.position_theseus:
+				print("if, path: ")
+				print(path)
+				print("pos_thes: ")
+				print(GlobalVariables.position_theseus)
+				path.append(GlobalVariables.position_theseus)
+				rope_length += 1
+			else:
+				print("else, path: ")
+				print(path)
+				print("pos_thes: ")
+				print(GlobalVariables.position_theseus)
+				path.pop_back()
+				rope_length -= 1
+		else:
+			path.append(GlobalVariables.position_theseus)
+			rope_length +=1
 
 
 
