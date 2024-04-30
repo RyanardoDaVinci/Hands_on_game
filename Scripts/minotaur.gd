@@ -202,7 +202,6 @@ func detect_other_player():
 			if detected_player:
 				detected_player = false
 			move_one_dir = false
-			camera.cull_mask = (1 << 0)
 			$Locked_in_timer.start()
 
 
@@ -222,3 +221,4 @@ func _on_area_3d_2_body_entered(body):
 
 func _on_locked_in_timer_timeout():
 	locked_in_label.visible = false
+	camera.cull_mask = (1 << 0)

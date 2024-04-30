@@ -171,10 +171,9 @@ func detect_other_player():
 					#print(GlobalVariables.minotaur_located_positions)
 				detected_player = true
 		else:
-			camera.cull_mask = (1 << 0) | (1 << 2)
-			detected_player = false
+			if detected_player:
+				detected_player = false
+			$Locked_in_timer.start()
 
-
-
-func path_minotaur():
-	pass
+func _on_locked_in_timer_timeout():
+	camera.cull_mask = (1 << 0)
