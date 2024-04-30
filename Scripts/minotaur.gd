@@ -10,7 +10,7 @@ extends CharacterBody3D
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
-@export var max_throw = 4
+@export var max_throw = 6
 @export var max_turns = 1
 @export var fixed_amount_moves = false
 

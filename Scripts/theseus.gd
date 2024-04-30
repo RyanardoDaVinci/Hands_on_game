@@ -4,15 +4,16 @@ extends CharacterBody3D
 @onready var camera = $Head/Camera3D as Camera3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
+@onready var fuck_you = $UI/MarginContainer/Fuck_you
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
-@export var max_throw = 6
+@export var max_throw = 4
 @export var max_turns = 1
-@export var fixed_amount_moves = false
 @export var move_back_range = 15
-@export var move_back_chance = 0.3
+@export var move_back_chance = 0.069
+@export var fixed_amount_moves = false
 
 # Mouse related variables
 var mouseSensitivity = 350
@@ -89,18 +90,6 @@ func _input(event):
 			roll_dice()
 
 	if event.is_action_pressed("switch_character"):
-		# if theseus in range of goal, random chance to move back 1 spot
-		if GlobalVariables.shortest_goal_distance <= move_back_range:
-			if randf() < move_back_chance and previous_position != null:
-				var tween = get_tree().create_tween()
-				tween.tween_property(self, "position", previous_position, 1.0/speed).set_trans(Tween.TRANS_SINE)
-				moving = true
-				GlobalVariables.theseus_moving = true
-				await tween.finished
-				moving = false
-				GlobalVariables.theseus_moving = false
-				previous_position = null
-		
 		detected_player = false
 		turns_taken = 0
 		roll_dice()
@@ -157,6 +146,20 @@ func move(dir):
 		await tween.finished
 		moving = false
 		GlobalVariables.theseus_moving = false
+		
+		# if theseus in range of goal, random chance to move back 1 spot
+		if GlobalVariables.shortest_goal_distance <= move_back_range:
+			if randf() < move_back_chance and previous_position != null:
+				fuck_you.visible = true
+				var tween2 = get_tree().create_tween()
+				tween2.tween_property(self, "position", previous_position, 1.0/speed).set_trans(Tween.TRANS_SINE)
+				moving = true
+				GlobalVariables.theseus_moving = true
+				await tween2.finished
+				moving = false
+				GlobalVariables.theseus_moving = false
+				previous_position = null
+				fuck_you.visible = false
 
 
 
