@@ -134,7 +134,7 @@ func move(dir):
 	if !wall_ray.is_colliding():
 		# Update amount of moves left
 		dice_throw_number -= 1
-		
+
 		# Update previous position
 		previous_position = GlobalVariables.position_theseus
 
@@ -146,7 +146,7 @@ func move(dir):
 		await tween.finished
 		moving = false
 		GlobalVariables.theseus_moving = false
-		
+
 		# if theseus in range of goal, random chance to move back 1 spot
 		if GlobalVariables.shortest_goal_distance <= move_back_range:
 			if randf() < move_back_chance and previous_position != null:

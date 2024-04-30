@@ -78,7 +78,6 @@ func spawn_ghosts():
 	else:
 		player = GlobalVariables.minotaur_located_positions
 		player_location = GlobalVariables.position_minotaur
-	print(player)
 
 	while not moved:
 		for i in range(player.size()):

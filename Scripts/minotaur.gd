@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 # Variables that should be ready when starting scene
 @onready var camera = $Head/Camera3D as Camera3D
+@onready var minimap_camera = $UI/MarginContainer/Minimap/SubViewportContainer/SubViewport/Minimap_camera as Camera3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
 @onready var attack_area = $Attack_area
@@ -12,6 +13,7 @@ extends CharacterBody3D
 @export var distance = 1
 @export var max_throw = 6
 @export var max_turns = 1
+@export var move_back_range = 3
 @export var fixed_amount_moves = false
 
 # Mouse related variables
@@ -65,6 +67,8 @@ func _process(_delta):
 
 	attack_area.rotation.y = -rotation.y
 
+	see_theseus_on_minimap()
+
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number)
 
@@ -117,6 +121,13 @@ func mouse_movement(event):
 	mouse_relative_x = clamp(event.relative.x, -50, 50)
 	mouse_relative_y = clamp(event.relative.y, -50, 10)
 
+
+
+func see_theseus_on_minimap():
+	if GlobalVariables.shortest_goal_distance <= move_back_range:
+		minimap_camera.cull_mask = (1 << 0) | (1 << 1) | (1 << 3)
+	else:
+		minimap_camera.cull_mask = (1 << 0) | (1 << 3)
 
 
 # Move player
