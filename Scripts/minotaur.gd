@@ -189,18 +189,20 @@ func detect_other_player():
 		var collider = player_ray.get_collider()
 
 		if collider.get_name() == "Theseus":
+			camera.cull_mask = (1 << 0) | (1 << 2)
 			locked_in_label.visible = true
 			if not detected_player:
 				if active_player == 0:
-					print("Found Theseus!")
+					#print("Found Theseus!")
 					GlobalVariables.theseus_located_positions.append(GlobalVariables.position_theseus)
-					print(GlobalVariables.theseus_located_positions)
+					#print(GlobalVariables.theseus_located_positions)
 				detected_player = true
 				move_one_dir = true
 		else:
 			if detected_player:
 				detected_player = false
 			move_one_dir = false
+			camera.cull_mask = (1 << 0)
 			$Locked_in_timer.start()
 
 

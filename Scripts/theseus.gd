@@ -163,13 +163,15 @@ func detect_other_player():
 		var collider = player_ray.get_collider()
 
 		if collider.get_name() == "Minotaur":
+			camera.cull_mask = (1 << 0) | (1 << 2)
 			if not detected_player:
 				if active_player == 1:
-					print("Found Minotaur!")
+					#print("Found Minotaur!")
 					GlobalVariables.minotaur_located_positions.append(GlobalVariables.position_minotaur)
-					print(GlobalVariables.minotaur_located_positions)
+					#print(GlobalVariables.minotaur_located_positions)
 				detected_player = true
 		else:
+			camera.cull_mask = (1 << 0) | (1 << 2)
 			detected_player = false
 
 
