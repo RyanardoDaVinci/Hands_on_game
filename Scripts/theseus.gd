@@ -26,6 +26,8 @@ var dice_throw_number
 # Current active player
 var active_player = null
 
+var is_theseus
+
 # Input list (for movement)
 var inputs = {
 	"right": Vector3.RIGHT,
@@ -47,15 +49,15 @@ func _ready():
 func _process(_delta):
 	GlobalVariables.position_theseus = $".".global_transform.origin
 	active_player = GlobalVariables.active_character
-	
+
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
-	
+
 	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving and active_player == 1:
 		detect_other_player()
 	elif GlobalVariables.minotaur_moving:
 		detected_player = false
-	
+
 	if (active_player == 0):
 		$UI.visible = true
 	else:
@@ -68,21 +70,21 @@ func _input(event):
 	# If player is moving or not active, don't get any inputs
 	if moving or active_player == 1:
 		return
-	
+
 	if event.is_action_pressed("switch_character"):
 		detected_player = false
-	
+
 	# Update mouse movement (mouse)
 	if event is InputEventMouseMotion:
 		mouse_movement(event)
-	
+
 	# Check if player is rolling a dice ('r')
 	if event.is_action_pressed("reroll"):
 		roll_dice()
-	
+
 	if event.is_action_pressed("switch_character"):
 		roll_dice()
-	
+
 	# If player has moves left, move in input direction ('w, a, s, d')
 	if dice_throw_number > 0:
 		for dir in inputs.keys():
@@ -105,7 +107,7 @@ func mouse_movement(event):
 func move(dir):
 	# Direction player will move in based on camera direction
 	var direction = inputs[dir].rotated(Vector3.UP, rotation.y)
-	
+
 	# Make sure player can only move on x-axis and y-axis, and not diagonal
 	if abs(direction.x) > abs(direction.z):
 		direction.z = 0
@@ -118,12 +120,12 @@ func move(dir):
 	# Wall detection based on what way player wants to move in (direction)
 	wall_ray.target_position = direction.rotated(Vector3.UP, -rotation.y) * distance * 1.5
 	wall_ray.force_raycast_update()
-	
+
 	# If ray isn't colliding, move in that direction
 	if !wall_ray.is_colliding():
 		# Update amount of moves left
 		dice_throw_number -= 1
-		
+
 		# Move player
 		var tween = get_tree().create_tween()
 		tween.tween_property(self, "position", position + direction * distance, 1.0/speed).set_trans(Tween.TRANS_SINE)
@@ -150,10 +152,10 @@ func detect_other_player():
 	angle -= character_rotation
 	var rotation_in_degrees = rad_to_deg(angle) - 180
 	player_ray.rotation_degrees.y = rotation_in_degrees
-	
+
 	if player_ray.is_colliding():
 		var collider = player_ray.get_collider()
-		
+
 		if collider.get_name() == "Minotaur":
 			if not detected_player:
 				print("Found Minotaur!")

@@ -4,6 +4,7 @@ extends CharacterBody3D
 @onready var camera = $Head/Camera3D as Camera3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
+@onready var attack_area = $Attack_area
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
@@ -45,7 +46,7 @@ func _ready():
 	GlobalVariables.position_minotaur = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	roll_dice()
-	
+
 
 
 
@@ -53,15 +54,17 @@ func _ready():
 func _process(_delta):
 	GlobalVariables.position_minotaur = $".".global_transform.origin
 	active_player = GlobalVariables.active_character
-	
+
+	attack_area.rotation.y = -rotation.y
+
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number)
-	
+
 	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving and active_player == 0:
 		detect_other_player()
 	elif GlobalVariables.theseus_moving:
 		detected_player = false
-	
+
 	if (active_player == 1):
 		$UI.visible = true
 	else:
@@ -74,21 +77,21 @@ func _input(event):
 	# If player is moving or not active, don't get any inputs
 	if moving or active_player == 0:
 		return
-	
+
 	if event.is_action_pressed("switch_character"):
 		detected_player = false
-	
+
 	# Update mouse movement (mouse)
 	if event is InputEventMouseMotion:
 		mouse_movement(event)
-	
+
 	# Check if player is rolling a dice ('r')
 	if event.is_action_pressed("reroll"):
 		roll_dice()
-	
+
 	if event.is_action_pressed("switch_character"):
 		roll_dice()
-	
+
 	# If player has moves left, move in input direction ('w, a, s, d')
 	if dice_throw_number > 0:
 		for dir in inputs.keys():
@@ -111,7 +114,7 @@ func mouse_movement(event):
 func move(dir):
 	# Direction player will move in based on camera direction
 	var direction = inputs[dir].rotated(Vector3.UP, rotation.y)
-	
+
 	# Make sure player can only move on x-axis and y-axis, and not diagonal
 	if abs(direction.x) > abs(direction.z):
 		direction.z = 0
@@ -124,7 +127,7 @@ func move(dir):
 	# Wall detection based on what way player wants to move in (direction)
 	wall_ray.target_position = direction.rotated(Vector3.UP, -rotation.y) * distance * 1.5
 	wall_ray.force_raycast_update()
-	
+
 	# If ray isn't colliding, move in that direction
 	if !wall_ray.is_colliding():
 		# Lock direction and check if input direction is the same
@@ -133,13 +136,13 @@ func move(dir):
 			direction_locked = true
 		elif direction != lock_direction:
 			return
-		
+
 		# Direction wasn't locked so lock it
 		direction = lock_direction
-		
+
 		# Update amount of moves left
 		dice_throw_number -= 1
-		
+
 		# Move player
 		var tween = get_tree().create_tween()
 		tween.tween_property(self, "position", position + direction * distance, 1.0/speed).set_trans(Tween.TRANS_SINE)
@@ -148,7 +151,7 @@ func move(dir):
 		await tween.finished
 		moving = false
 		GlobalVariables.minotaur_moving = false
-		
+
 		# Check if player can't move anymore because of wall (if so, set moves left to 0)
 		if wall_ray.is_colliding() and direction_locked:
 			dice_throw_number = 0
@@ -171,10 +174,10 @@ func detect_other_player():
 	angle -= character_rotation
 	var rotation_in_degrees = rad_to_deg(angle) - 180
 	player_ray.rotation_degrees.y = rotation_in_degrees
-	
+
 	if player_ray.is_colliding():
 		var collider = player_ray.get_collider()
-		
+
 		if collider.get_name() == "Theseus":
 			if not detected_player:
 				print("Found Theseus!")
@@ -183,4 +186,16 @@ func detect_other_player():
 				detected_player = true
 		elif detected_player:
 			detected_player = false
-		
+
+
+
+func _on_area_3d_body_entered(body):
+	if 'is_theseus' in body:
+		await get_tree().create_timer(1).timeout
+		get_tree().reload_current_scene()
+
+
+func _on_area_3d_2_body_entered(body):
+	if 'is_theseus' in body:
+		await get_tree().create_timer(1).timeout
+		get_tree().reload_current_scene()

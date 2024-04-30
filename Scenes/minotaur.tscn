@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cg1avh23e8eyu"]
+[gd_scene load_steps=10 format=3 uid="uid://cg1avh23e8eyu"]
 
 [ext_resource type="Script" path="res://Scripts/minotaur.gd" id="1_5ntsh"]
 [ext_resource type="Script" path="res://Scripts/minimap_camera.gd" id="2_j8wru"]
@@ -24,6 +24,9 @@ shadow_size = 16
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jm42m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e7cf6"]
+size = Vector3(3.3087, 2.05475, 9.93494)
 
 [node name="Minotaur" type="CharacterBody3D"]
 transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
@@ -125,3 +128,21 @@ transform = Transform3D(1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 
 layers = 2
 modulate = Color(1, 0, 0, 1)
 texture = ExtResource("4_0pyfi")
+
+[node name="Attack_area" type="Node3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="Attack_area"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Attack_area/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000526428, 0.0518533, -0.011909)
+shape = SubResource("BoxShape3D_e7cf6")
+
+[node name="Area3D2" type="Area3D" parent="Attack_area"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Attack_area/Area3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000526428, 0.0518533, -0.011909)
+shape = SubResource("BoxShape3D_e7cf6")
+
+[connection signal="body_entered" from="Attack_area/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Attack_area/Area3D2" to="." method="_on_area_3d_2_body_entered"]
