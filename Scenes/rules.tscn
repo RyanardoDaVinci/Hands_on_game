@@ -1,0 +1,144 @@
+[gd_scene load_steps=2 format=3 uid="uid://btedaiefj10o7"]
+
+[ext_resource type="Script" path="res://Scripts/rules.gd" id="1_sormg"]
+
+[node name="Rules" type="CanvasLayer"]
+script = ExtResource("1_sormg")
+
+[node name="Theseus" type="Control" parent="."]
+custom_minimum_size = Vector2(960, 1080)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 540.0
+
+[node name="Label" type="Label" parent="Theseus"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -127.5
+offset_top = 390.0
+offset_right = 127.5
+offset_bottom = 473.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 60
+text = "Theseus:"
+
+[node name="Label2" type="Label" parent="Theseus"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -70.0
+offset_bottom = 377.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Goal: 
+Reach 1 of the 2 goals (golden tile) on
+the other side of the map
+
+Movement: 
+In any direction
+
+Extra: 
+The closer you get to a goal,
+the harder it gets"
+horizontal_alignment = 1
+
+[node name="Minotaur" type="Control" parent="."]
+custom_minimum_size = Vector2(960, 1080)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 960.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Label" type="Label" parent="Minotaur"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -143.5
+offset_top = 390.0
+offset_right = 143.5
+offset_bottom = 473.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 60
+text = "Minotaur:"
+
+[node name="Label2" type="Label" parent="Minotaur"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -70.0
+offset_bottom = 467.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Goal: 
+Kill Theseus before he reaches his goal
+
+Movement: 
+In any direction untill you
+spot Theseus, then you can
+only move in 1 direction
+
+Attack:
+You have a + shaped attack
+range, so 1 tile in each direction
+(so not diagonal tho)"
+horizontal_alignment = 1
+
+[node name="General" type="Label" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1080.0
+offset_bottom = -997.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 60
+text = "General:"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1000.0
+offset_right = 3.0
+offset_bottom = -733.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "- When you would have spoted the other player, gray ghosts appear to
+show the path that you would have seen the other player take
+
+- You have a fixed amount of moves each turn, you don't have to use all those moves tho (they are not stackable)
+
+- When you finish your turn, press 'tab' en give the laptop to the other player"
+horizontal_alignment = 1
+
+[node name="Start" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -168.5
+offset_top = 410.0
+offset_right = 168.5
+offset_bottom = 501.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "Start Game"
+
+[connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
