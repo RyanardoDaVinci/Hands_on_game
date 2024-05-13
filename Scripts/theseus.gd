@@ -11,10 +11,8 @@ extends CharacterBody3D
 @export var distance = 1
 @export var max_throw = 4
 @export var max_turns = 1
-@export var move_back_range = 10
-@export var move_back_chance = 0.069
-@export var lose_movement_range = 17
-@export var extra_distance = 1
+#@export var move_back_range = 0
+#@export var move_back_chance = 0
 @export var fixed_amount_moves = false
 
 # Mouse related variables
@@ -149,34 +147,28 @@ func move(dir):
 		moving = false
 		GlobalVariables.theseus_moving = false
 
-		# if theseus in range of goal, random chance to move back 1 spot
-		if GlobalVariables.shortest_goal_distance <= move_back_range:
-			if randf() < move_back_chance and previous_position != null:
-				fuck_you.visible = true
-				var tween2 = get_tree().create_tween()
-				tween2.tween_property(self, "position", previous_position, 1.0/speed).set_trans(Tween.TRANS_SINE)
-				moving = true
-				GlobalVariables.theseus_moving = true
-				await tween2.finished
-				moving = false
-				GlobalVariables.theseus_moving = false
-				previous_position = null
-				fuck_you.visible = false
+		## if theseus in range of goal, random chance to move back 1 spot
+		#if GlobalVariables.shortest_goal_distance <= move_back_range:
+			#if randf() < move_back_chance and previous_position != null:
+				#fuck_you.visible = true
+				#var tween2 = get_tree().create_tween()
+				#tween2.tween_property(self, "position", previous_position, 1.0/speed).set_trans(Tween.TRANS_SINE)
+				#moving = true
+				#GlobalVariables.theseus_moving = true
+				#await tween2.finished
+				#moving = false
+				#GlobalVariables.theseus_moving = false
+				#previous_position = null
+				#fuck_you.visible = false
 
 
 
 # Get random number between 1 and max_throw (6)
 func roll_dice():
 	if fixed_amount_moves:
-		if GlobalVariables.shortest_goal_distance >= lose_movement_range or GlobalVariables.shortest_goal_distance == -1:
-			dice_throw_number = max_throw + extra_distance
-		else:
-			dice_throw_number = max_throw
+		dice_throw_number = max_throw
 	else:
-		if GlobalVariables.shortest_goal_distance >= lose_movement_range or GlobalVariables.shortest_goal_distance == -1:
-			dice_throw_number = randi() % (max_throw + extra_distance) + 1
-		else:
-			dice_throw_number = randi() % max_throw + 1
+		dice_throw_number = randi() % max_throw + 1
 
 
 

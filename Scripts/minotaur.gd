@@ -6,14 +6,14 @@ extends CharacterBody3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
 @onready var attack_area = $Attack_area
-@onready var locked_in_label = $UI/MarginContainer/Locked_in
+#@onready var locked_in_label = $UI/MarginContainer/Locked_in
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
 @export var max_throw = 4
 @export var max_turns = 1
-@export var move_back_range = 8
+#@export var minimap_nerf_range = 8
 @export var fixed_amount_moves = false
 
 # Mouse related variables
@@ -26,9 +26,9 @@ var detected_player = false
 # Check if player is moving
 var moving = false
 
-# Variables to lock direction after first move (resets when player retrows)
-var direction_locked = false
-var lock_direction
+## Variables to lock direction after first move (resets when player retrows)
+#var direction_locked = false
+#var lock_direction
 
 # Amount of moves player can do after throwing dice
 var dice_throw_number
@@ -54,7 +54,7 @@ var inputs = {
 func _ready():
 	GlobalVariables.position_minotaur = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	locked_in_label.visible = false
+	#locked_in_label.visible = false
 	roll_dice()
 
 
@@ -67,7 +67,7 @@ func _process(_delta):
 
 	attack_area.rotation.y = -rotation.y
 
-	see_theseus_on_minimap()
+	#see_theseus_on_minimap()
 
 	# Update label that shows how many moves are left
 	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number)
@@ -123,11 +123,11 @@ func mouse_movement(event):
 
 
 
-func see_theseus_on_minimap():
-	if GlobalVariables.shortest_goal_distance <= move_back_range:
-		minimap_camera.cull_mask = (1 << 0) | (1 << 1) | (1 << 3)
-	else:
-		minimap_camera.cull_mask = (1 << 0) | (1 << 3)
+#func see_theseus_on_minimap():
+	#if GlobalVariables.shortest_goal_distance <= minimap_nerf_range:
+		#minimap_camera.cull_mask = (1 << 0) | (1 << 1) | (1 << 3)
+	#else:
+		#minimap_camera.cull_mask = (1 << 0) | (1 << 3)
 
 
 # Move player
@@ -151,15 +151,15 @@ func move(dir):
 	# If ray isn't colliding, move in that direction
 	if !wall_ray.is_colliding():
 		# Lock direction and check if input direction is the same
-		if move_one_dir:
-			if !direction_locked:
-				lock_direction = direction
-				direction_locked = true
-			elif direction != lock_direction:
-				return
-
-			# Direction wasn't locked so lock it
-			direction = lock_direction
+		#if move_one_dir:
+			#if !direction_locked:
+				#lock_direction = direction
+				#direction_locked = true
+			#elif direction != lock_direction:
+				#return
+#
+			## Direction wasn't locked so lock it
+			#direction = lock_direction
 
 		# Update amount of moves left
 		dice_throw_number -= 1
@@ -177,7 +177,7 @@ func move(dir):
 
 # Get random number between 1 and max_throw (4)
 func roll_dice():
-	direction_locked = false
+	#direction_locked = false
 	move_one_dir = false
 	if fixed_amount_moves:
 		dice_throw_number = max_throw
@@ -201,7 +201,7 @@ func detect_other_player():
 
 		if collider.get_name() == "Theseus":
 			camera.cull_mask = (1 << 0) | (1 << 2)
-			locked_in_label.visible = true
+			#locked_in_label.visible = true
 			if not detected_player:
 				if active_player == 0:
 					#print("Found Theseus!")
@@ -213,7 +213,7 @@ func detect_other_player():
 			if detected_player:
 				detected_player = false
 			move_one_dir = false
-			$Locked_in_timer.start()
+			#$Locked_in_timer.start()
 
 
 
@@ -230,6 +230,6 @@ func _on_area_3d_2_body_entered(body):
 		get_tree().reload_current_scene()
 
 
-func _on_locked_in_timer_timeout():
-	locked_in_label.visible = false
-	camera.cull_mask = (1 << 0)
+#func _on_locked_in_timer_timeout():
+	#locked_in_label.visible = false
+	#camera.cull_mask = (1 << 0)

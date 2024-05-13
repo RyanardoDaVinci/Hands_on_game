@@ -60,6 +60,7 @@ theme_override_font_sizes/font_size = 40
 text = "Minotaur moves: 4"
 
 [node name="Locked_in" type="Label" parent="UI/MarginContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
