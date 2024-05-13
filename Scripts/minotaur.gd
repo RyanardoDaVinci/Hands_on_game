@@ -13,6 +13,7 @@ extends CharacterBody3D
 @export var distance = 1
 @export var max_throw = 5
 @export var max_turns = 1
+@export var steps_lost_on_hit = 3
 #@export var minimap_nerf_range = 8
 @export var fixed_amount_moves = false
 
@@ -32,6 +33,9 @@ var moving = false
 
 # Amount of moves player can do after throwing dice
 var dice_throw_number
+
+# Did the Minotaur hit Theseus last turn?
+var hit_theseus = false
 
 # Current active player
 var active_player = null
@@ -181,6 +185,9 @@ func roll_dice():
 	move_one_dir = false
 	if fixed_amount_moves:
 		dice_throw_number = max_throw
+		if hit_theseus:
+			hit_theseus = false
+			dice_throw_number = dice_throw_number - steps_lost_on_hit
 	else:
 		dice_throw_number = randi() % max_throw + 1
 
@@ -221,15 +228,23 @@ func detect_other_player():
 func _on_area_3d_body_entered(body):
 	if body.get_name() == "Theseus":
 		body.lives_left = body.lives_left - 1
+		# if Minotaurus is moving, stop his movement
+		if active_player == 1:
+			dice_throw_number = 0
+		hit_theseus = true
 		if body.lives_left <= 0:
 			await get_tree().create_timer(1).timeout
 			body.lives_left = body.lives
 			get_tree().reload_current_scene()
 
-
+# duplicate code
 func _on_area_3d_2_body_entered(body):
 	if body.get_name() == "Theseus":
 		body.lives_left = body.lives_left - 1
+		# if Minotaurus is moving, stop his movement
+		if active_player == 1:
+			dice_throw_number = 0
+		hit_theseus = true
 		if body.lives_left <= 0:
 			await get_tree().create_timer(1).timeout
 			body.lives_left = body.lives

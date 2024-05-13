@@ -30,7 +30,7 @@ var moving = false
 var dice_throw_number
 
 # Number of lives left
-var lives_left = lives
+var lives_left
 
 # Current active player
 var active_player = null
@@ -53,6 +53,7 @@ var inputs = {
 func _ready():
 	GlobalVariables.position_theseus = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	lives_left = lives
 	roll_dice()
 
 
