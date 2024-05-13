@@ -46,12 +46,13 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Moves_left" type="Label" parent="UI/MarginContainer"]
+[node name="Stats" type="Label" parent="UI/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 40
-text = "Theseus moves: 6"
+text = "Theseus moves: 4
+Lives: 2"
 
 [node name="Controls" type="Label" parent="UI/MarginContainer"]
 layout_mode = 2

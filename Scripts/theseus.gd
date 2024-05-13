@@ -63,7 +63,7 @@ func _process(_delta):
 	active_player = GlobalVariables.active_character
 
 	# Update label that shows how many moves are left
-	$UI/MarginContainer/Moves_left.text = "Theseus moves: " + str(dice_throw_number)
+	$UI/MarginContainer/Stats.text = "Theseus moves: " + str(dice_throw_number) + "\nLives: " + str(lives_left)
 
 	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving:
 		detect_other_player()

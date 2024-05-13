@@ -220,22 +220,20 @@ func detect_other_player():
 
 func _on_area_3d_body_entered(body):
 	if body.get_name() == "Theseus":
-		if body.lives_left == 1:
+		body.lives_left = body.lives_left - 1
+		if body.lives_left <= 0:
 			await get_tree().create_timer(1).timeout
 			body.lives_left = body.lives
 			get_tree().reload_current_scene()
-		else:
-			body.lives_left = body.lives_left - 1
 
 
 func _on_area_3d_2_body_entered(body):
 	if body.get_name() == "Theseus":
-		if body.lives_left == 1:
+		body.lives_left = body.lives_left - 1
+		if body.lives_left <= 0:
 			await get_tree().create_timer(1).timeout
 			body.lives_left = body.lives
 			get_tree().reload_current_scene()
-		else:
-			body.lives_left = body.lives_left - 1
 
 
 #func _on_locked_in_timer_timeout():
