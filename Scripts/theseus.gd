@@ -4,13 +4,14 @@ extends CharacterBody3D
 @onready var camera = $Head/Camera3D as Camera3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
-@onready var fuck_you = $UI/MarginContainer/Fuck_you
+#@onready var fuck_you = $UI/MarginContainer/Fuck_you
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
 @export var max_throw = 4
 @export var max_turns = 1
+@export var lives = 2
 #@export var move_back_range = 0
 #@export var move_back_chance = 0
 @export var fixed_amount_moves = false
@@ -27,6 +28,9 @@ var moving = false
 
 # Amount of moves player can do after throwing dice
 var dice_throw_number
+
+# Number of lives left
+var lives_left = lives
 
 # Current active player
 var active_player = null

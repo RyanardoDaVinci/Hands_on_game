@@ -11,7 +11,7 @@ extends CharacterBody3D
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
-@export var max_throw = 4
+@export var max_throw = 5
 @export var max_turns = 1
 #@export var minimap_nerf_range = 8
 @export var fixed_amount_moves = false
@@ -220,14 +220,22 @@ func detect_other_player():
 
 func _on_area_3d_body_entered(body):
 	if body.get_name() == "Theseus":
-		await get_tree().create_timer(1).timeout
-		get_tree().reload_current_scene()
+		if body.lives_left == 1:
+			await get_tree().create_timer(1).timeout
+			body.lives_left = body.lives
+			get_tree().reload_current_scene()
+		else:
+			body.lives_left = body.lives_left - 1
 
 
 func _on_area_3d_2_body_entered(body):
 	if body.get_name() == "Theseus":
-		await get_tree().create_timer(1).timeout
-		get_tree().reload_current_scene()
+		if body.lives_left == 1:
+			await get_tree().create_timer(1).timeout
+			body.lives_left = body.lives
+			get_tree().reload_current_scene()
+		else:
+			body.lives_left = body.lives_left - 1
 
 
 #func _on_locked_in_timer_timeout():
