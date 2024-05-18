@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cg1avh23e8eyu"]
+[gd_scene load_steps=11 format=3 uid="uid://cg1avh23e8eyu"]
 
 [ext_resource type="Script" path="res://Scripts/minotaur.gd" id="1_5ntsh"]
 [ext_resource type="Script" path="res://Scripts/minimap_camera.gd" id="2_j8wru"]
+[ext_resource type="PackedScene" uid="uid://gb8sdy24w4ca" path="res://Assets/3D/direction_arrow.glb" id="3_ayvsx"]
 [ext_resource type="Texture2D" uid="uid://dy1enubgg3abs" path="res://Assets/Sprites/circle.png" id="3_yh1ef"]
 [ext_resource type="Texture2D" uid="uid://d014t3jsrgvkd" path="res://Assets/Sprites/player-view_angle.png" id="4_0pyfi"]
 
@@ -74,7 +75,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 40
 text = "Move: W, A, S, D
-Roll dice: R
+Ability: space
 Swap: tab
 Quit game: esc"
 horizontal_alignment = 2
@@ -115,7 +116,7 @@ shape = SubResource("CapsuleShape3D_jm42m")
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(1.33333, 0, 0, 0, 1.33333, 0, 0, 0, 1.33333, 0, 0.649818, -0.00174205)
-cull_mask = 1047557
+cull_mask = 1047573
 current = true
 
 [node name="Wall_detection_ray" type="RayCast3D" parent="Head"]
@@ -124,6 +125,12 @@ target_position = Vector3(0, 0, -1)
 
 [node name="Player_detection_ray" type="RayCast3D" parent="Head"]
 transform = Transform3D(2, 0, 0, 0, -2.18557e-06, -2, 0, 50, -8.74228e-08, 0, 0.419, 0)
+
+[node name="Arrow" parent="Head" instance=ExtResource("3_ayvsx")]
+transform = Transform3D(-2.15866e-08, -3.41898e-09, 0.5, -0.0782172, 0.493844, 0, -0.493844, -0.0782172, -2.18557e-08, 0, 1.6, -3.5)
+
+[node name="Arrow_Material_001_0" parent="Head/Arrow/Sketchfab_model/54b2761560d74cf7a540d3659ba46cd1_fbx/RootNode/Arrow" index="0"]
+layers = 16
 
 [node name="Minimap_indicators" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475482, 0)
@@ -162,3 +169,5 @@ one_shot = true
 [connection signal="body_entered" from="Attack_area/Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Attack_area/Area3D2" to="." method="_on_area_3d_2_body_entered"]
 [connection signal="timeout" from="Locked_in_timer" to="." method="_on_locked_in_timer_timeout"]
+
+[editable path="Head/Arrow"]

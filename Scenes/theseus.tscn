@@ -52,7 +52,8 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "Theseus moves: 4
-Lives: 2"
+Lives: 2
+Can dash: true"
 
 [node name="Controls" type="Label" parent="UI/MarginContainer"]
 layout_mode = 2
@@ -60,7 +61,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 40
 text = "Move: W, A, S, D
-Roll dice: R
+Ability: space
 Swap: tab
 Quit game: esc"
 horizontal_alignment = 2

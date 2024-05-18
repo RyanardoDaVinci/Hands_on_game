@@ -6,6 +6,7 @@ extends CharacterBody3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
 @onready var attack_area = $Attack_area
+@onready var arrow = $Head/Arrow
 #@onready var locked_in_label = $UI/MarginContainer/Locked_in
 
 # Export variables that player can edit in node inspector
@@ -16,6 +17,8 @@ extends CharacterBody3D
 @export var steps_lost_on_hit = 3
 #@export var minimap_nerf_range = 8
 @export var fixed_amount_moves = false
+# how many turns before getting direction help
+@export var turns_not_seen_theseus = 4
 
 # Mouse related variables
 var mouseSensitivity = 350
@@ -44,6 +47,11 @@ var move_one_dir = false
 
 var turns_taken = 0
 
+var not_seen_counter
+var seen_him = false
+var can_use_help = false
+var used_help = false
+
 # Input list (for movement)
 var inputs = {
 	"right": Vector3.RIGHT,
@@ -59,6 +67,8 @@ func _ready():
 	GlobalVariables.position_minotaur = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	#locked_in_label.visible = false
+	not_seen_counter = 0
+	arrow.visible = false
 	roll_dice()
 
 
@@ -74,7 +84,7 @@ func _process(_delta):
 	#see_theseus_on_minimap()
 
 	# Update label that shows how many moves are left
-	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number)
+	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number) + "\nDirection ability: " + str(can_use_help)
 
 	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving:
 		detect_other_player()
@@ -85,6 +95,12 @@ func _process(_delta):
 		$UI.visible = true
 	else:
 		$UI.visible = false
+
+	if not_seen_counter < 1:
+		can_use_help = true
+
+	if seen_him:
+		can_use_help = false
 
 
 
@@ -105,9 +121,16 @@ func _input(event):
 			roll_dice()
 
 	if event.is_action_pressed("switch_character"):
+		roll_dice()
+		if used_help:
+			can_use_help = false
+			arrow.visible = false
 		detected_player = false
 		turns_taken = 0
-		roll_dice()
+		seen_him = false
+
+	if event.is_action_pressed("help_action"):
+		try_help()
 
 	# If player has moves left, move in input direction ('w, a, s, d')
 	if dice_throw_number > 0:
@@ -177,6 +200,21 @@ func move(dir):
 		moving = false
 		GlobalVariables.minotaur_moving = false
 
+func not_seen_helper():
+	if seen_him:
+		not_seen_counter = turns_not_seen_theseus
+	elif not can_use_help and not_seen_counter > 0:
+		not_seen_counter -= 1
+
+
+func try_help():
+	if not can_use_help:
+		return
+	used_help = true
+	arrow.visible = true
+	seen_him = false
+	not_seen_counter = turns_not_seen_theseus
+	print("help!!!")
 
 
 # Get random number between 1 and max_throw (4)
@@ -191,6 +229,7 @@ func roll_dice():
 	else:
 		dice_throw_number = randi() % max_throw + 1
 
+	not_seen_helper()
 
 
 func detect_other_player():
@@ -202,12 +241,13 @@ func detect_other_player():
 	angle -= character_rotation
 	var rotation_in_degrees = rad_to_deg(angle) - 180
 	player_ray.rotation_degrees.y = rotation_in_degrees
+	arrow.rotation_degrees.y = rotation_in_degrees + 90
 
 	if player_ray.is_colliding():
 		var collider = player_ray.get_collider()
 
 		if collider.get_name() == "Theseus":
-			camera.cull_mask = (1 << 0) | (1 << 2)
+			camera.cull_mask = (1 << 0) | (1 << 2) | (1 << 4)
 			#locked_in_label.visible = true
 			if not detected_player:
 				if active_player == 0:
@@ -215,6 +255,7 @@ func detect_other_player():
 					GlobalVariables.theseus_located_positions.append(GlobalVariables.position_theseus)
 					#print(GlobalVariables.theseus_located_positions)
 				detected_player = true
+				seen_him = true
 				move_one_dir = true
 		else:
 			if detected_player:

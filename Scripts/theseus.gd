@@ -15,6 +15,10 @@ extends CharacterBody3D
 #@export var move_back_range = 0
 #@export var move_back_chance = 0
 @export var fixed_amount_moves = false
+# amount of turns before can dash again
+@export var dash_cooldown_amount = 4
+# extra steps for a dash
+@export var dash_boost = 3
 
 # Mouse related variables
 var mouseSensitivity = 350
@@ -40,6 +44,10 @@ var previous_position = null
 
 var turns_taken = 0
 
+var can_dash = true
+
+var dash_cooldown_counter
+
 # Input list (for movement)
 var inputs = {
 	"right": Vector3.RIGHT,
@@ -54,6 +62,7 @@ func _ready():
 	GlobalVariables.position_theseus = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	lives_left = lives
+	dash_cooldown_counter = 0
 	roll_dice()
 
 
@@ -64,7 +73,7 @@ func _process(_delta):
 	active_player = GlobalVariables.active_character
 
 	# Update label that shows how many moves are left
-	$UI/MarginContainer/Stats.text = "Theseus moves: " + str(dice_throw_number) + "\nLives: " + str(lives_left)
+	$UI/MarginContainer/Stats.text = "Theseus moves: " + str(dice_throw_number) + "\nLives: " + str(lives_left) + "\nDash ability: " + str(can_dash)
 
 	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving:
 		detect_other_player()
@@ -98,6 +107,9 @@ func _input(event):
 		detected_player = false
 		turns_taken = 0
 		roll_dice()
+
+	if event.is_action_pressed("help_action"):
+		try_dash()
 
 	# If player has moves left, move in input direction ('w, a, s, d')
 	if dice_throw_number > 0:
@@ -168,12 +180,26 @@ func move(dir):
 
 
 
+func try_dash():
+	if not can_dash:
+		return
+	elif dash_cooldown_counter == 0:
+		can_dash = false
+		dice_throw_number += dash_boost
+		dash_cooldown_counter = dash_cooldown_amount
+
 # Get random number between 1 and max_throw (6)
 func roll_dice():
 	if fixed_amount_moves:
 		dice_throw_number = max_throw
 	else:
 		dice_throw_number = randi() % max_throw + 1
+
+	if not can_dash and dash_cooldown_counter > 0:
+		dash_cooldown_counter -= 1
+
+	if dash_cooldown_counter == 0:
+		can_dash = true
 
 
 
