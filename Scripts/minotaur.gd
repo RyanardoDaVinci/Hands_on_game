@@ -73,6 +73,7 @@ func _ready():
 	not_seen_counter = 0
 	arrow.visible = false
 	ability_indicator.visible = false
+	$Win_screen.visible = false
 	roll_dice()
 
 	var moveContainer = $UI/MarginContainer/Moves
@@ -303,10 +304,7 @@ func if_theseus_hit(body):
 			dice_throw_number = 0
 		hit_theseus = true
 		if body.lives_left <= 0:
-			await get_tree().create_timer(1).timeout
-			body.lives_left = body.max_lives
-			GlobalVariables.reset()
-			get_tree().reload_current_scene()
+			trigger_win()
 
 func _on_area_3d_body_entered(body):
 	if_theseus_hit(body)
@@ -316,6 +314,15 @@ func _on_area_3d_2_body_entered(body):
 	if_theseus_hit(body)
 
 
-#func _on_locked_in_timer_timeout():
-	#locked_in_label.visible = false
-	#camera.cull_mask = (1 << 0)
+func trigger_win():
+	$Win_screen/Fade_animation.play("Fade_in")
+	$Win_screen.visible = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().paused = true
+	GlobalVariables.in_swap = true
+
+
+func _on_restart_pressed():
+	get_tree().paused = false
+	GlobalVariables.reset()
+	get_tree().reload_current_scene()

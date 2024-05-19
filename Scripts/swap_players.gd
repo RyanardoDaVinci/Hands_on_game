@@ -37,6 +37,3 @@ func _on_swap_pressed():
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-
-func _on_swap_mouse_entered():
-	$UI/Swap/Border.visible = true

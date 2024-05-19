@@ -11,7 +11,8 @@ extends CharacterBody3D
 @export var speed = 1
 @export var distance = 1
 @export var max_throw = 4 # max for max_throw + dash_boost = 10, otherwise, add more sprites for move icons
-@export var dash_boost = 3
+@export var dash_boost = 4
+@export var max_dash = 2 # max is 4, otherwise, add more sprites for health icons
 @export var max_turns = 1
 @export var max_lives = 2 # max is 5, otherwise, add more sprites for health icons
 #@export var move_back_range = 0
@@ -36,8 +37,8 @@ var dice_throw_number
 # Number of lives left
 var lives_left
 var healthSprites : Array = []
-
 var moveSprites: Array = []
+var dashSprites: Array = []
 
 # Current active player
 var active_player = null
@@ -50,6 +51,7 @@ var turns_taken = 0
 var can_dash = true
 
 var dash_cooldown_counter
+var dashes_left
 
 # Input list (for movement)
 var inputs = {
@@ -65,12 +67,14 @@ func _ready():
 	GlobalVariables.position_theseus = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	lives_left = max_lives
+	dashes_left = max_dash
 	dash_cooldown_counter = 0
 	dash_indicator.visible = false
 	roll_dice()
 
 	var healthContainer = $UI/MarginContainer/Health
 	var moveContainer = $UI/MarginContainer/Moves
+	var dashContainer = $UI/MarginContainer/Dash
 
 		# Get all health sprites
 	for child in healthContainer.get_children():
@@ -87,6 +91,12 @@ func _ready():
 	# Only display move sprites equal to max_throw + dash_boost (max amount of sprites now is 10)
 	for i in range(max_throw + dash_boost):
 		moveSprites[i].visible = true
+
+	for child in dashContainer.get_children():
+		dashSprites.append(child)
+
+	for i in range(max_dash):
+		dashSprites[i].visible = true
 
 
 
@@ -214,20 +224,24 @@ func handle_icons():
 	for i in range(max_throw + dash_boost):
 		moveSprites[i].visible = i < dice_throw_number
 
+	for i in range(max_dash):
+		dashSprites[i].visible = i < dashes_left
+
 
 
 func show_dash_indicator():
-	if can_dash:
+	if can_dash and dashes_left > 0:
 		dash_indicator.visible = true
 	else:
 		dash_indicator.visible = false
 
 
 func try_dash():
-	if not can_dash:
+	if not can_dash or dashes_left <= 0:
 		return
 	elif dash_cooldown_counter == 0:
 		can_dash = false
+		dashes_left -= 1
 		dice_throw_number += dash_boost
 		dash_cooldown_counter = dash_cooldown_amount
 

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cl1maeeh01kmc" path="res://Scenes/win_area.tscn" id="3_u4481"]
 [ext_resource type="PackedScene" uid="uid://dkgkgdgv362ku" path="res://Scenes/theseus.tscn" id="4_huu8a"]
 [ext_resource type="PackedScene" uid="uid://dqeabsnhql8em" path="res://Scenes/swap_players.tscn" id="6_n2lxv"]
-[ext_resource type="PackedScene" path="res://Scenes/pause_menu.tscn" id="7_gix8b"]
+[ext_resource type="PackedScene" uid="uid://c3tmrsavmgqnk" path="res://Scenes/pause_menu.tscn" id="7_gix8b"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fjoni"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -43,14 +43,12 @@ environment = SubResource("Environment_a3xrl")
 
 [node name="Theseus" parent="Players" instance=ExtResource("4_huu8a")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.5, 0.303, 3.5)
-speed = 10
-max_turns = 100
+speed = 2
 fixed_amount_moves = true
 
 [node name="Minotaur" parent="Players" instance=ExtResource("3_e3dcj")]
 transform = Transform3D(-0.3, 0, -4.52987e-08, 0, 0.3, 0, 4.52987e-08, 0, -0.3, 0.5, 0.303, -11.5)
-speed = 10
-max_turns = 100
+speed = 2
 fixed_amount_moves = true
 
 [node name="Goals" type="Node3D" parent="."]
