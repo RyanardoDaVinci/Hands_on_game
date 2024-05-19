@@ -138,7 +138,6 @@ func _input(event):
 			roll_dice()
 
 	if event.is_action_pressed("switch_character"):
-		roll_dice()
 		if used_help:
 			can_use_help = false
 			arrow.visible = false
@@ -296,10 +295,7 @@ func detect_other_player():
 			move_one_dir = false
 			#$Locked_in_timer.start()
 
-
-
-
-func _on_area_3d_body_entered(body):
+func if_theseus_hit(body):
 	if body.get_name() == "Theseus":
 		body.lives_left = body.lives_left - 1
 		# if Minotaurus is moving, stop his movement
@@ -312,18 +308,12 @@ func _on_area_3d_body_entered(body):
 			GlobalVariables.reset()
 			get_tree().reload_current_scene()
 
+func _on_area_3d_body_entered(body):
+	if_theseus_hit(body)
+
 # duplicate code
 func _on_area_3d_2_body_entered(body):
-	if body.get_name() == "Theseus":
-		body.lives_left = body.lives_left - 1
-		# if Minotaurus is moving, stop his movement
-		if active_player == 1:
-			dice_throw_number = 0
-		hit_theseus = true
-		if body.lives_left <= 0:
-			await get_tree().create_timer(1).timeout
-			body.lives_left = body.lives
-			get_tree().reload_current_scene()
+	if_theseus_hit(body)
 
 
 #func _on_locked_in_timer_timeout():

@@ -132,7 +132,6 @@ func _input(event):
 	if event.is_action_pressed("switch_character"):
 		detected_player = false
 		turns_taken = 0
-		roll_dice()
 
 	if event.is_action_pressed("help_action"):
 		try_dash()

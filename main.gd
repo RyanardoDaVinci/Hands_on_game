@@ -36,11 +36,13 @@ func _input(event):
 			GlobalVariables.active_character = 1
 			GlobalVariables.minotaur_located_positions.clear()
 			minotaur.camera.current = true
+			minotaur.roll_dice()
 		# if active character == minotaur
 		elif !GlobalVariables.minotaur_moving:
 			GlobalVariables.active_character = 0
 			GlobalVariables.theseus_located_positions.clear()
 			theseus.camera.current = true
+			theseus.roll_dice()
 
 	if event.is_action_pressed("forward") or event.is_action_pressed("backward") or event.is_action_pressed("left") or event.is_action_pressed("right"):
 		moved = true
