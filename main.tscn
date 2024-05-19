@@ -43,12 +43,14 @@ environment = SubResource("Environment_a3xrl")
 
 [node name="Theseus" parent="Players" instance=ExtResource("4_huu8a")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.5, 0.303, 3.5)
-speed = 2
+speed = 10
+max_turns = 100
 fixed_amount_moves = true
 
 [node name="Minotaur" parent="Players" instance=ExtResource("3_e3dcj")]
 transform = Transform3D(-0.3, 0, -4.52987e-08, 0, 0.3, 0, 4.52987e-08, 0, -0.3, 0.5, 0.303, -11.5)
-speed = 2
+speed = 10
+max_turns = 100
 fixed_amount_moves = true
 
 [node name="Goals" type="Node3D" parent="."]

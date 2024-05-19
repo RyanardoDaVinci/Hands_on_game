@@ -70,7 +70,7 @@ func _ready():
 	GlobalVariables.position_minotaur = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	#locked_in_label.visible = false
-	not_seen_counter = 0
+	not_seen_counter = turns_not_seen_theseus
 	arrow.visible = false
 	ability_indicator.visible = false
 	$Win_screen.visible = false
