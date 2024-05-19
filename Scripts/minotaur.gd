@@ -309,6 +309,7 @@ func _on_area_3d_body_entered(body):
 		if body.lives_left <= 0:
 			await get_tree().create_timer(1).timeout
 			body.lives_left = body.max_lives
+			GlobalVariables.reset()
 			get_tree().reload_current_scene()
 
 # duplicate code

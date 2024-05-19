@@ -50,6 +50,7 @@ func _on_continue_pressed():
 
 
 func _on_restart_pressed():
+	GlobalVariables.reset()
 	new_pause_state = not get_tree().paused
 	get_tree().paused = new_pause_state
 	get_tree().reload_current_scene()
