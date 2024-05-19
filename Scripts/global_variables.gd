@@ -14,3 +14,12 @@ var minotaur_located_positions = []
 var shortest_goal_distance = -1
 
 var in_swap = false
+
+func reset():
+	active_character = null
+	theseus_moving = false
+	minotaur_moving = false
+	theseus_located_positions = []
+	minotaur_located_positions = []
+	shortest_goal_distance = -1
+	in_swap = false
