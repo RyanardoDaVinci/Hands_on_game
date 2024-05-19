@@ -108,8 +108,8 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 40
 text = "Move: W, A, S, D
 Ability: space
-Swap: tab
-Quit game: esc"
+End turn: tab
+Pause game: esc"
 horizontal_alignment = 2
 
 [node name="Fuck_you" type="Label" parent="UI/MarginContainer"]
