@@ -4,21 +4,21 @@ extends CharacterBody3D
 @onready var camera = $Head/Camera3D as Camera3D
 @onready var wall_ray = $Head/Wall_detection_ray
 @onready var player_ray = $Head/Player_detection_ray
+@onready var dash_indicator = $UI/MarginContainer/Dash_indicator
 #@onready var fuck_you = $UI/MarginContainer/Fuck_you
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
-@export var max_throw = 4
+@export var max_throw = 4 # max for max_throw + dash_boost = 10, otherwise, add more sprites for move icons
+@export var dash_boost = 3
 @export var max_turns = 1
-@export var lives = 2
+@export var max_lives = 2 # max is 5, otherwise, add more sprites for health icons
 #@export var move_back_range = 0
 #@export var move_back_chance = 0
 @export var fixed_amount_moves = false
 # amount of turns before can dash again
 @export var dash_cooldown_amount = 4
-# extra steps for a dash
-@export var dash_boost = 3
 
 # Mouse related variables
 var mouseSensitivity = 350
@@ -35,6 +35,9 @@ var dice_throw_number
 
 # Number of lives left
 var lives_left
+var healthSprites : Array = []
+
+var moveSprites: Array = []
 
 # Current active player
 var active_player = null
@@ -61,9 +64,29 @@ var inputs = {
 func _ready():
 	GlobalVariables.position_theseus = $".".global_transform.origin
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	lives_left = lives
+	lives_left = max_lives
 	dash_cooldown_counter = 0
+	dash_indicator.visible = false
 	roll_dice()
+
+	var healthContainer = $UI/MarginContainer/Health
+	var moveContainer = $UI/MarginContainer/Moves
+
+		# Get all health sprites
+	for child in healthContainer.get_children():
+		healthSprites.append(child)
+
+	# Only display health sprites equal to max_lives (max amount of sprites now is 5)
+	for i in range(max_lives):
+		healthSprites[i].visible = true
+
+	# Get all move sprites
+	for i in range(max_throw + dash_boost):
+		moveSprites.append(moveContainer.get_child(i))
+
+	# Only display move sprites equal to max_throw + dash_boost (max amount of sprites now is 10)
+	for i in range(max_throw + dash_boost):
+		moveSprites[i].visible = true
 
 
 
@@ -72,8 +95,11 @@ func _process(_delta):
 	GlobalVariables.position_theseus = $".".global_transform.origin
 	active_player = GlobalVariables.active_character
 
-	# Update label that shows how many moves are left
-	$UI/MarginContainer/Stats.text = "Theseus moves: " + str(dice_throw_number) + "\nLives: " + str(lives_left) + "\nDash ability: " + str(can_dash)
+	handle_icons()
+	show_dash_indicator()
+
+	## Update label that shows how many moves are left
+	#$UI/MarginContainer/Stats.text = "Moves left: " + str(dice_throw_number)
 
 	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving:
 		detect_other_player()
@@ -178,6 +204,24 @@ func move(dir):
 				#previous_position = null
 				#fuck_you.visible = false
 
+
+
+func handle_icons():
+	# Handle health display
+	for i in range(max_lives):
+		healthSprites[i].visible = i < lives_left
+
+	# Handle move display
+	for i in range(max_throw + dash_boost):
+		moveSprites[i].visible = i < dice_throw_number
+
+
+
+func show_dash_indicator():
+	if can_dash:
+		dash_indicator.visible = true
+	else:
+		dash_indicator.visible = false
 
 
 func try_dash():

@@ -1,0 +1,233 @@
+[gd_scene load_steps=15 format=3 uid="uid://c3tmrsavmgqnk"]
+
+[ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_8onjp"]
+[ext_resource type="Texture2D" uid="uid://bsmap0mi1w2tq" path="res://Assets/UI/Border/panel-border-030.png" id="2_fr2md"]
+[ext_resource type="Texture2D" uid="uid://c7yt0nlg16bwm" path="res://Assets/UI/Border/panel-border-031.png" id="3_js3fq"]
+[ext_resource type="Texture2D" uid="uid://b13375ue6ig4p" path="res://Assets/UI/Divider Fade/divider-fade-005.png" id="4_t8f3y"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ahkcf"]
+texture = ExtResource("2_fr2md")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xoux4"]
+texture = ExtResource("3_js3fq")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_vvgnv"]
+tile_size = Vector2i(4, 4)
+sources/0 = SubResource("TileSetAtlasSource_ahkcf")
+sources/1 = SubResource("TileSetAtlasSource_xoux4")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3rhh6"]
+texture = ExtResource("4_t8f3y")
+texture_region_size = Vector2i(16, 18)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_7tsns"]
+tile_size = Vector2i(2, 2)
+sources/5 = SubResource("TileSetAtlasSource_3rhh6")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tqbup"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ne6t"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5ugfh"]
+texture = ExtResource("2_fr2md")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dnn0f"]
+texture = ExtResource("3_js3fq")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_t5gnl"]
+tile_size = Vector2i(4, 4)
+sources/0 = SubResource("TileSetAtlasSource_5ugfh")
+sources/1 = SubResource("TileSetAtlasSource_dnn0f")
+
+[node name="Pause_menu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_8onjp")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -1.0
+offset_right = -2.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.219608, 0.219608, 0.219608, 0.945098)
+
+[node name="Box_background" type="ColorRect" parent="UI"]
+custom_minimum_size = Vector2(1500, 800)
+layout_mode = 0
+offset_left = 200.0
+offset_top = 108.0
+offset_right = 1735.0
+offset_bottom = 975.0
+color = Color(0.188235, 0.188235, 0.188235, 1)
+
+[node name="Title" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 519.0
+offset_top = 150.0
+offset_right = 1405.0
+offset_bottom = 355.0
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_font_sizes/font_size = 150
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="Border" type="TileMap" parent="UI"]
+position = Vector2(5, 11)
+scale = Vector2(8, 8)
+tile_set = SubResource("TileSet_vvgnv")
+format = 2
+layer_0/tile_data = PackedInt32Array(262151, 1, 0, 262196, 131073, 0, 1835060, 131073, 2, 1835015, 1, 2, 1835019, 65537, 2, 1835020, 65537, 2, 1835021, 65537, 2, 1835022, 65537, 2, 1835023, 65537, 2, 1835024, 65537, 2, 1835025, 65537, 2, 1835026, 65537, 2, 1835027, 65537, 2, 1835028, 65537, 2, 1835029, 65537, 2, 1835030, 65537, 2, 1835031, 65537, 2, 1835032, 65537, 2, 1835033, 65537, 2, 1835034, 65537, 2, 1835035, 65537, 2, 1835036, 65537, 2, 1835037, 65537, 2, 1835038, 65537, 2, 1835039, 65537, 2, 1835040, 65537, 2, 1835041, 65537, 2, 1835042, 65537, 2, 1835043, 65537, 2, 1835044, 65537, 2, 1835045, 65537, 2, 1835046, 65537, 2, 1835047, 65537, 2, 1835048, 65537, 2, 1835049, 65537, 2, 1835050, 65537, 2, 1835051, 65537, 2, 1835052, 65537, 2, 1835053, 65537, 2, 1835054, 65537, 2, 1835055, 65537, 2, 1835056, 65537, 2, 1835057, 65537, 2, 262155, 65537, 0, 262156, 65537, 0, 262157, 65537, 0, 262158, 65537, 0, 262159, 65537, 0, 262160, 65537, 0, 262161, 65537, 0, 262162, 65537, 0, 262163, 65537, 0, 262164, 65537, 0, 262165, 65537, 0, 262166, 65537, 0, 262167, 65537, 0, 262168, 65537, 0, 262169, 65537, 0, 262170, 65537, 0, 262171, 65537, 0, 262172, 65537, 0, 262173, 65537, 0, 262174, 65537, 0, 262175, 65537, 0, 262176, 65537, 0, 262177, 65537, 0, 262178, 65537, 0, 262179, 65537, 0, 262180, 65537, 0, 262181, 65537, 0, 262182, 65537, 0, 262183, 65537, 0, 262184, 65537, 0, 262185, 65537, 0, 262186, 65537, 0, 262187, 65537, 0, 262188, 65537, 0, 262189, 65537, 0, 262190, 65537, 0, 262191, 65537, 0, 262192, 65537, 0, 262193, 65537, 0, 458804, 131073, 1, 524340, 131073, 1, 589876, 131073, 1, 655412, 131073, 1, 720948, 131073, 1, 786484, 131073, 1, 852020, 131073, 1, 917556, 131073, 1, 983092, 131073, 1, 1048628, 131073, 1, 1114164, 131073, 1, 1179700, 131073, 1, 1245236, 131073, 1, 1310772, 131073, 1, 1376308, 131073, 1, 1441844, 131073, 1, 1507380, 131073, 1, 1572916, 131073, 1, 458759, 1, 1, 524295, 1, 1, 589831, 1, 1, 655367, 1, 1, 720903, 1, 1, 786439, 1, 1, 851975, 1, 1, 917511, 1, 1, 983047, 1, 1, 1048583, 1, 1, 1114119, 1, 1, 1179655, 1, 1, 1245191, 1, 1, 1310727, 1, 1, 1376263, 1, 1, 1441799, 1, 1, 1507335, 1, 1, 1572871, 1, 1, 1638407, 1, 1)
+
+[node name="Banners" type="TileMap" parent="UI"]
+position = Vector2(0, -50)
+scale = Vector2(6, 6)
+tile_set = SubResource("TileSet_7tsns")
+format = 2
+layer_0/tile_data = PackedInt32Array(1638506, 327685, 805306368, 1638514, 262149, 805306368, 1638522, 131077, 805306368, 1638530, 65541, 805306368, 1638538, 5, 805306368, 1638453, 327685, 0, 1638445, 262149, 0, 1638437, 131077, 0, 1638429, 65541, 0, 1638421, 5, 0)
+
+[node name="Buttons" type="Node2D" parent="UI"]
+position = Vector2(180, 89)
+scale = Vector2(0.8, 0.8)
+
+[node name="Continue" type="Button" parent="UI/Buttons"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 717.0
+offset_top = 450.0
+offset_right = 1230.0
+offset_bottom = 578.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_tqbup")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5ne6t")
+text = "Continue"
+
+[node name="Border" type="TileMap" parent="UI/Buttons/Continue"]
+position = Vector2(-1, -2)
+scale = Vector2(3, 3)
+tile_set = SubResource("TileSet_t5gnl")
+format = 2
+layer_0/tile_data = PackedInt32Array(65537, 1, 0, 589825, 1, 2, 65577, 131073, 0, 589865, 131073, 2, 327721, 131073, 1, 327681, 1, 1, 65541, 65537, 0, 65542, 65537, 0, 65543, 65537, 0, 65544, 65537, 0, 65545, 65537, 0, 65546, 65537, 0, 65547, 65537, 0, 65548, 65537, 0, 65549, 65537, 0, 65550, 65537, 0, 65551, 65537, 0, 65552, 65537, 0, 65553, 65537, 0, 65554, 65537, 0, 65555, 65537, 0, 65556, 65537, 0, 65557, 65537, 0, 65558, 65537, 0, 65559, 65537, 0, 65560, 65537, 0, 65561, 65537, 0, 65562, 65537, 0, 65563, 65537, 0, 65564, 65537, 0, 65565, 65537, 0, 65566, 65537, 0, 65567, 65537, 0, 65568, 65537, 0, 65569, 65537, 0, 65570, 65537, 0, 65571, 65537, 0, 65572, 65537, 0, 65573, 65537, 0, 589829, 65537, 2, 589830, 65537, 2, 589831, 65537, 2, 589832, 65537, 2, 589833, 65537, 2, 589834, 65537, 2, 589835, 65537, 2, 589836, 65537, 2, 589837, 65537, 2, 589838, 65537, 2, 589839, 65537, 2, 589840, 65537, 2, 589841, 65537, 2, 589842, 65537, 2, 589843, 65537, 2, 589844, 65537, 2, 589845, 65537, 2, 589846, 65537, 2, 589847, 65537, 2, 589848, 65537, 2, 589849, 65537, 2, 589850, 65537, 2, 589851, 65537, 2, 589852, 65537, 2, 589853, 65537, 2, 589854, 65537, 2, 589855, 65537, 2, 589856, 65537, 2, 589857, 65537, 2, 589858, 65537, 2, 589859, 65537, 2, 589860, 65537, 2, 589861, 65537, 2)
+
+[node name="Restart" type="Button" parent="UI/Buttons"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 717.0
+offset_top = 635.0
+offset_right = 1230.0
+offset_bottom = 763.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_tqbup")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5ne6t")
+text = "Restart"
+
+[node name="Border" type="TileMap" parent="UI/Buttons/Restart"]
+position = Vector2(-1, -2)
+scale = Vector2(3, 3)
+tile_set = SubResource("TileSet_t5gnl")
+format = 2
+layer_0/tile_data = PackedInt32Array(65537, 1, 0, 589825, 1, 2, 65577, 131073, 0, 589865, 131073, 2, 327721, 131073, 1, 327681, 1, 1, 65541, 65537, 0, 65542, 65537, 0, 65543, 65537, 0, 65544, 65537, 0, 65545, 65537, 0, 65546, 65537, 0, 65547, 65537, 0, 65548, 65537, 0, 65549, 65537, 0, 65550, 65537, 0, 65551, 65537, 0, 65552, 65537, 0, 65553, 65537, 0, 65554, 65537, 0, 65555, 65537, 0, 65556, 65537, 0, 65557, 65537, 0, 65558, 65537, 0, 65559, 65537, 0, 65560, 65537, 0, 65561, 65537, 0, 65562, 65537, 0, 65563, 65537, 0, 65564, 65537, 0, 65565, 65537, 0, 65566, 65537, 0, 65567, 65537, 0, 65568, 65537, 0, 65569, 65537, 0, 65570, 65537, 0, 65571, 65537, 0, 65572, 65537, 0, 65573, 65537, 0, 589829, 65537, 2, 589830, 65537, 2, 589831, 65537, 2, 589832, 65537, 2, 589833, 65537, 2, 589834, 65537, 2, 589835, 65537, 2, 589836, 65537, 2, 589837, 65537, 2, 589838, 65537, 2, 589839, 65537, 2, 589840, 65537, 2, 589841, 65537, 2, 589842, 65537, 2, 589843, 65537, 2, 589844, 65537, 2, 589845, 65537, 2, 589846, 65537, 2, 589847, 65537, 2, 589848, 65537, 2, 589849, 65537, 2, 589850, 65537, 2, 589851, 65537, 2, 589852, 65537, 2, 589853, 65537, 2, 589854, 65537, 2, 589855, 65537, 2, 589856, 65537, 2, 589857, 65537, 2, 589858, 65537, 2, 589859, 65537, 2, 589860, 65537, 2, 589861, 65537, 2)
+
+[node name="Quit" type="Button" parent="UI/Buttons"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 717.0
+offset_top = 825.0
+offset_right = 1230.0
+offset_bottom = 953.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_tqbup")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5ne6t")
+text = "Quit Game"
+
+[node name="Border" type="TileMap" parent="UI/Buttons/Quit"]
+position = Vector2(-1, -2)
+scale = Vector2(3, 3)
+tile_set = SubResource("TileSet_t5gnl")
+format = 2
+layer_0/tile_data = PackedInt32Array(65537, 1, 0, 589825, 1, 2, 65577, 131073, 0, 589865, 131073, 2, 327721, 131073, 1, 327681, 1, 1, 65541, 65537, 0, 65542, 65537, 0, 65543, 65537, 0, 65544, 65537, 0, 65545, 65537, 0, 65546, 65537, 0, 65547, 65537, 0, 65548, 65537, 0, 65549, 65537, 0, 65550, 65537, 0, 65551, 65537, 0, 65552, 65537, 0, 65553, 65537, 0, 65554, 65537, 0, 65555, 65537, 0, 65556, 65537, 0, 65557, 65537, 0, 65558, 65537, 0, 65559, 65537, 0, 65560, 65537, 0, 65561, 65537, 0, 65562, 65537, 0, 65563, 65537, 0, 65564, 65537, 0, 65565, 65537, 0, 65566, 65537, 0, 65567, 65537, 0, 65568, 65537, 0, 65569, 65537, 0, 65570, 65537, 0, 65571, 65537, 0, 65572, 65537, 0, 65573, 65537, 0, 589829, 65537, 2, 589830, 65537, 2, 589831, 65537, 2, 589832, 65537, 2, 589833, 65537, 2, 589834, 65537, 2, 589835, 65537, 2, 589836, 65537, 2, 589837, 65537, 2, 589838, 65537, 2, 589839, 65537, 2, 589840, 65537, 2, 589841, 65537, 2, 589842, 65537, 2, 589843, 65537, 2, 589844, 65537, 2, 589845, 65537, 2, 589846, 65537, 2, 589847, 65537, 2, 589848, 65537, 2, 589849, 65537, 2, 589850, 65537, 2, 589851, 65537, 2, 589852, 65537, 2, 589853, 65537, 2, 589854, 65537, 2, 589855, 65537, 2, 589856, 65537, 2, 589857, 65537, 2, 589858, 65537, 2, 589859, 65537, 2, 589860, 65537, 2, 589861, 65537, 2)
+
+[connection signal="mouse_entered" from="UI/Buttons/Continue" to="." method="_on_continue_mouse_entered"]
+[connection signal="pressed" from="UI/Buttons/Continue" to="." method="_on_continue_pressed"]
+[connection signal="mouse_entered" from="UI/Buttons/Restart" to="." method="_on_restart_mouse_entered"]
+[connection signal="pressed" from="UI/Buttons/Restart" to="." method="_on_restart_pressed"]
+[connection signal="mouse_entered" from="UI/Buttons/Quit" to="." method="_on_quit_mouse_entered"]
+[connection signal="pressed" from="UI/Buttons/Quit" to="." method="_on_quit_pressed"]

@@ -7,12 +7,13 @@ extends CharacterBody3D
 @onready var player_ray = $Head/Player_detection_ray
 @onready var attack_area = $Attack_area
 @onready var arrow = $Head/Arrow
+@onready var ability_indicator = $UI/MarginContainer/Ability_indicator
 #@onready var locked_in_label = $UI/MarginContainer/Locked_in
 
 # Export variables that player can edit in node inspector
 @export var speed = 1
 @export var distance = 1
-@export var max_throw = 5
+@export var max_throw = 5 # max is 10, otherwise, add more sprites for move icons
 @export var max_turns = 1
 @export var steps_lost_on_hit = 3
 #@export var minimap_nerf_range = 8
@@ -52,6 +53,8 @@ var seen_him = false
 var can_use_help = false
 var used_help = false
 
+var moveSprites: Array = []
+
 # Input list (for movement)
 var inputs = {
 	"right": Vector3.RIGHT,
@@ -69,7 +72,18 @@ func _ready():
 	#locked_in_label.visible = false
 	not_seen_counter = 0
 	arrow.visible = false
+	ability_indicator.visible = false
 	roll_dice()
+
+	var moveContainer = $UI/MarginContainer/Moves
+
+	# Get all move sprites
+	for i in range(max_throw):
+		moveSprites.append(moveContainer.get_child(i))
+
+	# Only display move sprites equal to max_throw + dash_boost (max amount of sprites now is 10)
+	for i in range(max_throw):
+		moveSprites[i].visible = true
 
 
 
@@ -81,10 +95,13 @@ func _process(_delta):
 
 	attack_area.rotation.y = -rotation.y
 
+	handle_icons()
+	show_ability_indicator()
+
 	#see_theseus_on_minimap()
 
 	# Update label that shows how many moves are left
-	$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number) + "\nDirection ability: " + str(can_use_help)
+	#$UI/MarginContainer/Moves_left.text = "Minotaur moves: " + str(dice_throw_number) + "\nDirection ability: " + str(can_use_help)
 
 	if not GlobalVariables.theseus_moving and not GlobalVariables.minotaur_moving:
 		detect_other_player()
@@ -200,6 +217,22 @@ func move(dir):
 		moving = false
 		GlobalVariables.minotaur_moving = false
 
+
+
+func handle_icons():
+	# Handle move display
+	for i in range(max_throw):
+		moveSprites[i].visible = i < dice_throw_number
+
+
+func show_ability_indicator():
+	if can_use_help:
+		ability_indicator.visible = true
+	else:
+		ability_indicator.visible = false
+
+
+
 func not_seen_helper():
 	if seen_him:
 		not_seen_counter = turns_not_seen_theseus
@@ -275,7 +308,7 @@ func _on_area_3d_body_entered(body):
 		hit_theseus = true
 		if body.lives_left <= 0:
 			await get_tree().create_timer(1).timeout
-			body.lives_left = body.lives
+			body.lives_left = body.max_lives
 			get_tree().reload_current_scene()
 
 # duplicate code

@@ -48,12 +48,12 @@ func _input(event):
 
 
 
-# Check for inputs that are not in the project input map
-func _unhandled_input(event):
-	# Close game window when 'esc' is pressed
-	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_ESCAPE:
-			get_tree().quit()
+## Check for inputs that are not in the project input map
+#func _unhandled_input(event):
+	## Close game window when 'esc' is pressed
+	#if event is InputEventKey:
+		#if event.pressed and event.keycode == KEY_ESCAPE:
+			#get_tree().quit()
 
 func calculate_goal_distance():
 	var player_position = GlobalVariables.position_theseus

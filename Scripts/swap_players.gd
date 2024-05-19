@@ -18,6 +18,7 @@ func _process(_delta):
 
 			get_tree().paused = new_pause_state
 			$UI.visible = new_pause_state
+			GlobalVariables.in_swap = true
 
 			if new_pause_state:
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -26,6 +27,7 @@ func _process(_delta):
 
 
 func _on_swap_pressed():
+	GlobalVariables.in_swap = false
 	just_swapped = false
 	new_pause_state = not get_tree().paused
 	get_tree().paused = new_pause_state
@@ -34,3 +36,7 @@ func _on_swap_pressed():
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func _on_swap_mouse_entered():
+	$UI/Swap/Border.visible = true

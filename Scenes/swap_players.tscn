@@ -1,6 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqeabsnhql8em"]
+[gd_scene load_steps=7 format=3 uid="uid://dqeabsnhql8em"]
 
 [ext_resource type="Script" path="res://Scripts/swap_players.gd" id="1_mcx4j"]
+[ext_resource type="Texture2D" uid="uid://c7yt0nlg16bwm" path="res://Assets/UI/Border/panel-border-031.png" id="2_esdij"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fcbl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r83oe"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k0ts5"]
+texture = ExtResource("2_esdij")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_rky17"]
+sources/0 = SubResource("TileSetAtlasSource_k0ts5")
 
 [node name="Swap_players" type="CanvasLayer"]
 process_mode = 3
@@ -30,13 +51,26 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -45.5
-offset_right = 180.0
-offset_bottom = 45.5
+offset_left = -256.5
+offset_top = -64.0
+offset_right = 256.5
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_0fcbl")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_r83oe")
 text = "Swap Player"
 
+[node name="Border" type="TileMap" parent="UI/Swap"]
+position = Vector2(-8.5, -9)
+scale = Vector2(3, 3)
+tile_set = SubResource("TileSet_rky17")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 0, 0, 1, 65536, 0, 2, 65536, 0, 3, 65536, 0, 4, 65536, 0, 5, 65536, 0, 6, 65536, 0, 7, 65536, 0, 8, 65536, 0, 9, 65536, 0, 10, 131072, 0, 65546, 131072, 1, 131082, 131072, 2, 131081, 65536, 2, 131080, 65536, 2, 131079, 65536, 2, 131078, 65536, 2, 131077, 65536, 2, 131076, 65536, 2, 131075, 65536, 2, 131074, 65536, 2, 131073, 65536, 2, 65536, 0, 1, 131072, 0, 2)
+
+[connection signal="mouse_entered" from="UI/Swap" to="." method="_on_swap_mouse_entered"]
 [connection signal="pressed" from="UI/Swap" to="." method="_on_swap_pressed"]
